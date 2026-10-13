@@ -30,8 +30,7 @@ class ConfigurationManager:
                     "action": "Action",
                     "disabled": "Disabled",
                     "rule_usage": "Rule Usage",
-                    "modified": "Modified",
-                    "logging": "Log Setting"
+                    "modified": "Modified"
                 }
             },
             "cisco_asa": {
@@ -49,33 +48,18 @@ class ConfigurationManager:
                 }
             },
             "fortinet": {
-                "required_fields": ["PolicyID", "RuleName", "SrcZone", "DstZone",
-                                    "SourceAddress", "DestinationAddress", "Service", "Action"],
-                "optional_fields": ["Application", "Enabled", "HitCount", "LogTraffic",
-                                    "UTMStatus", "Schedule", "CreatedDate", "Comments",
-                                    "Security Profile", "Log", "Bytes", "Last Used", "NAT"],
-                # Two export formats in the wild: the long-form headers
-                # (PolicyID / SrcZone / SourceAddress) and the short GUI export
-                # (ID / From / Source). Each field lists both, tried in order,
-                # so either file parses without the user choosing a variant.
+                "required_fields": ["policyid", "srcintf", "dstintf", "srcaddr", "dstaddr", "service", "action"],
+                "optional_fields": ["status", "schedule", "logtraffic", "comments"],
                 "field_mappings": {
-                    "rule_id": ["PolicyID", "ID"],
-                    "name": ["RuleName", "Policy", "Name"],
-                    "source_zones": ["SrcZone", "From"],
-                    "dest_zones": ["DstZone", "To"],
-                    "source_addresses": ["SourceAddress", "Source"],
-                    "dest_addresses": ["DestinationAddress", "Destination"],
-                    "services": ["Service"],
-                    "applications": ["Application"],
-                    "action": ["Action"],
-                    "disabled": ["Enabled", "Status"],
-                    "rule_usage": ["HitCount", "Bytes"],
-                    # NOT "Last Used": rule age is measured from when the rule
-                    # was last *changed*, and the stale-rule check keys off this
-                    # field. A recently used rule is not a recently edited one.
-                    "modified": ["CreatedDate"],
-                    "logging": ["LogTraffic", "Log"],
-                    "security_profile": ["Security Profile", "UTMStatus"]
+                    "rule_id": "policyid",
+                    "source_zones": "srcintf",
+                    "dest_zones": "dstintf",
+                    "source_addresses": "srcaddr",
+                    "dest_addresses": "dstaddr",
+                    "services": "service",
+                    "action": "action",
+                    "disabled": "status",
+                    "name": "comments"
                 }
             },
             "checkpoint": {

@@ -20,34 +20,3 @@ dependencies = [
 
 [project.scripts]
 firewall-analyzer = "firewall_analyzer.cli:main"
-firewall-analyzer-ui = "firewall_analyzer.webui.cli:main"
-
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-data]
-# Shipped alongside the code: default scoring config and the report's CSS/JS.
-# Without this these files are missing from a built wheel and the analyzer
-# silently falls back to DEFAULT_ANALYSIS_CONFIG (application risk scoring off).
-firewall_analyzer = [
-    "config/*.json",
-    "reporting/assets/*.css",
-    "reporting/assets/*.js",
-    # The web UI is plain static files with no build step, so they ship as-is.
-    "webui/static/*.html",
-    "webui/static/css/*.css",
-    "webui/static/js/*.js",
-    "webui/static/js/pages/*.js",
-    "webui/static/img/*",
-]
-
-[project.optional-dependencies]
-# The web interface. The analysis engine itself stays dependency-free.
-ui = [
-    "fastapi>=0.110",
-    "uvicorn[standard]>=0.27",
-    "python-multipart>=0.0.9",
-    "openpyxl>=3.1",          # reads .xlsx uploads
-]
-# tools/check_browsing_profiles.py is a standalone script, not part of the package.
-tools = ["pandas", "openpyxl"]

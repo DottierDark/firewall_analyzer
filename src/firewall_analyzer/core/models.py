@@ -7,7 +7,6 @@ from typing import Dict, List, Any
 # Enumerations
 # ============================================================================
 
-
 class VendorType(Enum):
     """Supported firewall vendors"""
     PALO_ALTO = "palo_alto"
@@ -52,7 +51,6 @@ class RuleIssueType(Enum):
 # Data Models
 # ============================================================================
 
-
 @dataclass
 class SecurityFinding:
     """Represents a security finding for a rule"""
@@ -85,7 +83,6 @@ class FirewallRule:
     rule_usage: str
     modified: str
     raw_data: Dict[str, str]
-    logging: str = ''
     findings: List[SecurityFinding] = field(default_factory=list)
     risk_score: int = 0
     score_breakdown: Dict[str, Any] = field(default_factory=dict)

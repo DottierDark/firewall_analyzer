@@ -1,6 +1,5 @@
 import argparse
 import json
-import os
 import sys
 from datetime import datetime
 
@@ -10,29 +9,6 @@ from .data.appid_handler import PaloAltoAppIDHandler
 from .data.parser import MultiVendorCSVParser
 from .orchestrator import EnhancedFirewallRuleAnalyzer
 from .reporting.html_generator import EnhancedHTMLReportGenerator
-
-
-APPID_DB_SEARCH_PATHS = (
-    os.path.join('data', 'palo_alto_applipedia.json'),
-    'palo_alto_applipedia.json',
-)
-
-
-def _resolve_appid_db(explicit_path):
-    """Resolve the AppID database path.
-
-    An explicit --appid-db is used as given. Otherwise the known locations are
-    tried in order; the last candidate is returned when none exist so the
-    handler emits its usual 'not found' warning.
-    """
-    if explicit_path:
-        return explicit_path
-
-    for candidate in APPID_DB_SEARCH_PATHS:
-        if os.path.exists(candidate):
-            return candidate
-
-    return APPID_DB_SEARCH_PATHS[-1]
 
 
 def main():
@@ -74,10 +50,8 @@ Features:
                        help='Path to JSON zone configuration')
     parser.add_argument('--analysis-config', type=str,
                        help='Path to JSON analysis scoring configuration')
-    parser.add_argument('--appid-db', type=str, default=None,
-                       help='Path to Palo Alto AppID database JSON file '
-                            '(default: first match of data/palo_alto_applipedia.json, '
-                            './palo_alto_applipedia.json)')
+    parser.add_argument('--appid-db', type=str, default='palo_alto_applipedia.json',
+                       help='Path to Palo Alto AppID database JSON file (default: palo_alto_applipedia.json)')
     parser.add_argument('--export-json', type=str,
                        help='Export analysis results to JSON file')
     parser.add_argument('--export-configs', type=str,
@@ -108,7 +82,7 @@ Features:
 
         # Initialize Palo Alto AppID handler
         print("Loading Palo Alto AppID database...")
-        app_id_handler = PaloAltoAppIDHandler(_resolve_appid_db(args.appid_db))
+        app_id_handler = PaloAltoAppIDHandler(args.appid_db)
         print(app_id_handler)
 
         vendor_type = None
@@ -153,9 +127,7 @@ Features:
         print("\n" + "="*70)
         print("SECURITY ANALYSIS SUMMARY")
         print("="*70)
-        rating = summary.get('posture') or {}
-        score = f" (posture score {rating['score']}/100)" if rating.get('score') is not None else ""
-        print(f"\nOverall Risk Rating: {summary['overall_health']}{score}")
+        print(f"\nOverall Security Health: {summary['overall_health']}")
         print(f"Total Issues Found: {summary['total_issues']}")
         print(f"  - Critical: {summary['critical_issues']}")
         print(f"  - High Risk: {summary['high_risk_issues']}")

@@ -1,0 +1,4341 @@
+{
+  "timestamp": "2026-07-26T18:29:42.715222",
+  "vendor_type": "palo_alto",
+  "summary": {
+    "overall_health": "Critical",
+    "critical_issues": 23,
+    "high_risk_issues": 134,
+    "total_issues": 328,
+    "recommendations": [
+      {
+        "priority": 1,
+        "recommendation": "Define specific source IP addresses or subnets using least privilege. Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles.",
+        "risk_level": "critical",
+        "score": 180,
+        "affected_rules": [
+          "A_DPT-Ping"
+        ]
+      },
+      {
+        "priority": 2,
+        "recommendation": "Define specific source IP addresses or subnets using least privilege. Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles.",
+        "risk_level": "critical",
+        "score": 160,
+        "affected_rules": [
+          "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_MS-UPDATE"
+        ]
+      },
+      {
+        "priority": 3,
+        "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles.",
+        "risk_level": "critical",
+        "score": 155,
+        "affected_rules": [
+          "A-DPT-L3_5_To_L2_Backup_SRV-2way"
+        ]
+      },
+      {
+        "priority": 4,
+        "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles.",
+        "risk_level": "high",
+        "score": 115,
+        "affected_rules": [
+          "A_DPT_L3_5-To-L4_S1proxy_Access-1"
+        ]
+      },
+      {
+        "priority": 5,
+        "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles.",
+        "risk_level": "high",
+        "score": 115,
+        "affected_rules": [
+          "A_DPT-L4_To_35_ADDM_SCAN_only_35"
+        ]
+      },
+      {
+        "priority": 6,
+        "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles.",
+        "risk_level": "high",
+        "score": 110,
+        "affected_rules": [
+          "A_DPT-L2-To_rDC35_WinRM"
+        ]
+      },
+      {
+        "priority": 7,
+        "recommendation": "Use HTTPS instead of HTTP for encrypted communication",
+        "risk_level": "medium",
+        "score": 100,
+        "affected_rules": [
+          "A_DPT_L3_5-To-L4_S1proxy_Access-1"
+        ]
+      },
+      {
+        "priority": 8,
+        "recommendation": "Use POP3S (port 995) for encrypted email retrieval",
+        "risk_level": "medium",
+        "score": 100,
+        "affected_rules": [
+          "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_userid-1"
+        ]
+      },
+      {
+        "priority": 9,
+        "recommendation": "Restrict RPC exposure and use secure alternatives where possible",
+        "risk_level": "high",
+        "score": 100,
+        "affected_rules": [
+          "A-DPT-L3_5_To_L4_Ctera_Fileshare_access"
+        ]
+      },
+      {
+        "priority": 10,
+        "recommendation": "Disable NetBIOS unless absolutely required",
+        "risk_level": "high",
+        "score": 100,
+        "affected_rules": [
+          "A-DPT-L3_5_To_L4_Ctera_Fileshare_access"
+        ]
+      },
+      {
+        "priority": 11,
+        "recommendation": "Use LDAPS (port 636) for encrypted directory access",
+        "risk_level": "medium",
+        "score": 100,
+        "affected_rules": [
+          "A-DPT-L2_To_3_5_LDAPs_infrae2"
+        ]
+      },
+      {
+        "priority": 12,
+        "recommendation": "Restrict PostgreSQL access to trusted hosts and enable SSL/TLS encryption for connections",
+        "risk_level": "medium",
+        "score": 100,
+        "affected_rules": [
+          "[Disabled]  A_DPT-L35_To_L4-PostGreSql_Proxy"
+        ]
+      },
+      {
+        "priority": 13,
+        "recommendation": "Implement RDP with Network Level Authentication and restrict access",
+        "risk_level": "medium",
+        "score": 100,
+        "affected_rules": [
+          "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones-port"
+        ]
+      },
+      {
+        "priority": 14,
+        "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3",
+        "risk_level": "critical",
+        "score": 100,
+        "affected_rules": [
+          "A-DPT-L4-To_L35_Nessus_Scanning"
+        ]
+      },
+      {
+        "priority": 15,
+        "recommendation": "Use NFSv4 with Kerberos authentication and encryption",
+        "risk_level": "high",
+        "score": 100,
+        "affected_rules": [
+          "A-DPT_L3_To_L35_MP_Fileshare"
+        ]
+      }
+    ]
+  },
+  "statistics": {
+    "total_rules": 159,
+    "allow_rules": 128,
+    "all_rules_total": 164,
+    "disabled_rules_excluded": 0,
+    "deny_any_rules_excluded": 5,
+    "disabled_rules": 0,
+    "unused_rules": 0,
+    "total_findings": 328,
+    "findings_by_type": {
+      "overly_permissive": 159,
+      "insecure_protocol": 116,
+      "shadowed": 53
+    },
+    "findings_by_risk": {
+      "critical": 23,
+      "medium": 140,
+      "high": 134,
+      "low": 31
+    },
+    "rules_with_any": {
+      "source": 29,
+      "destination": 11,
+      "service": 10,
+      "multiple_any": 5
+    },
+    "insecure_protocols_found": [
+      "postgresql",
+      "pop3",
+      "http",
+      "rdp",
+      "nfs",
+      "ldap",
+      "netbios",
+      "smbv1",
+      "smtp",
+      "imap",
+      "rpc"
+    ],
+    "redundant_rules": 0,
+    "shadowed_rules": 53,
+    "vendor_distribution": {
+      "palo_alto": 159
+    },
+    "zone_traffic_pairs": 1,
+    "subnet_overlaps_found": 0
+  },
+  "zone_summary": {
+    "external \u2192 external": {
+      "allow_rules": 4,
+      "deny_rules": 0,
+      "total_rules": 4,
+      "rules": [
+        "ded97091",
+        "25b1f2d0",
+        "839ae52e",
+        "121037e1"
+      ]
+    }
+  },
+  "findings": [
+    {
+      "rule_id": "ded97091",
+      "rule_name": "A_DPT-Ping",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 180,
+      "description": "Rule is overly permissive with 'any' in: source addresses, destination addresses, applications, source zones, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "25dfb02c",
+      "rule_name": "A_DPT_L3_5-To-L4_S1proxy_Access-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp_8080_PROXY)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "25dfb02c",
+      "rule_name": "A_DPT_L3_5-To-L4_S1proxy_Access-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "066f3a97",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_LicensingSRV-2",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8082-8083)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "066f3a97",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_LicensingSRV-2",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a302c523",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_Local_Vcenter",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "f5f54b20",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_OCUM",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b946c1a5",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_DR_Replication-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "b946c1a5",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_DR_Replication-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "59b62904",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_Ext_Logs_Collection",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp_8080_PROXY)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "59b62904",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_Ext_Logs_Collection",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "2a0e4faf",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_SMTP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "6f22b55f",
+      "rule_name": "A-DPT-L3_5_To_L2_Backup_SRV-1way",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "775a6590",
+      "rule_name": "A-DPT-L3_5_To_L2_Backup_SRV-2way",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 155,
+      "description": "Rule is overly permissive with 'any' in: services, applications, source zones, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "4ed1f1b9",
+      "rule_name": "[Disabled]  A_LDC_35_VSA_Mediaagent_To_IDRAC_HPE_Apollo",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "4a4f93d0",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_SCCM-Management-Point",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a64bef76",
+      "rule_name": "[Disabled]  A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_ADDM-Tideway-SERVICE",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "44ac04c1",
+      "rule_name": "[Disabled]  A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_ADDM-Tideway-APP",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "8ff4b2dd",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_LicensingSRV",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "53a2da56",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_RDS_License_SRV",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "19f6f009",
+      "rule_name": "A_DPT-L4_To_35_ADDM_SCAN_only_35",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "27bacc59",
+      "rule_name": "A_DPT-L3_5_To_3_5_DNS_NTP_DHCP",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "806a1135",
+      "rule_name": "A-DPT-L35_To_L4_IACs-Jumpbox",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "806a1135",
+      "rule_name": "A-DPT-L35_To_L4_IACs-Jumpbox",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "07c1dcdc",
+      "rule_name": "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_MS-UPDATE",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 160,
+      "description": "Rule is overly permissive with 'any' in: source addresses, services, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "e066f5da",
+      "rule_name": "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_SCOM",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "95b88df2",
+      "rule_name": "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_KMS",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "27d1d71f",
+      "rule_name": "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_AD",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "5a4e96fd",
+      "rule_name": "[Disabled]  A_DPT-rD_L3_5_To_ILO-Inciga_Monitoring",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "58505ed9",
+      "rule_name": "A_DPT-L2-To_rDC35_WinRM",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "e1f19608",
+      "rule_name": "A_From_DPT-rDC-L3_5_Jumpbox-To-L3",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b5f22409",
+      "rule_name": "A-DPT-ALL_To_rD_L35_IACs-Exception",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "b5f22409",
+      "rule_name": "A-DPT-ALL_To_rD_L35_IACs-Exception",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "0fd86cb2",
+      "rule_name": "A-DPT-ALL_To_rD_L35_IACs",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "0fd86cb2",
+      "rule_name": "A-DPT-ALL_To_rD_L35_IACs",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "933ecf4f",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_KMS",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a2c1d757",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_DNS_DHCP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "d6917246",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_NTP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "2996521d",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_SMB_Share",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "8522bf46",
+      "rule_name": "A_DPT-L35_To_3_ADDM_SCAN-WK-SRV",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "e6a376c1",
+      "rule_name": "A_DPT-L35_To_3_LOCAL_WK-SRV",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b81ea15a",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_WSUS",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "fafa0f3c",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_WSUS-PC",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b51cef83",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "7ff9284d",
+      "rule_name": "A_DPT-L3_To_rDC-L35-Oracle_GOEMP_Services-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "f5f50664",
+      "rule_name": "A_DPT_L3.5_L4_OMS_To_Agent_temporary_bi-directional-Ports",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "f86a0352",
+      "rule_name": "A_DPT-rDC-L3_5-To-L3_RDP_Via_Citrix_From_rDC",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "89e2778a",
+      "rule_name": "A-DPT-ALL_To_rD_L35_IACs_Choco",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "97f278e6",
+      "rule_name": "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_userid-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POP3 (service: TCP-995)",
+      "recommendation": "Use POP3S (port 995) for encrypted email retrieval"
+    },
+    {
+      "rule_id": "97f278e6",
+      "rule_name": "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_userid-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b641c949",
+      "rule_name": "A-DPT-rDC35_To_L2_Cyberark_mgmt",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a2c8974c",
+      "rule_name": "A-DPT-rDC35_To_L2_Cyberark_RDP_SSH",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3773016c",
+      "rule_name": "A-DPT-L2_To_3_5_AD-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "96a84931",
+      "rule_name": "[Disabled]  A-DPT-L2_To_3_5_AD-linux",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "194e811c",
+      "rule_name": "A-DPT-L3_5_To_L3_5_CommVault-To-ESXi-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "476db780",
+      "rule_name": "A_DPT-L3_5_To_L4_ONE_AD_LDAP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "f1dc38c4",
+      "rule_name": "A_DPT-L3_5_To_rDC_3_5_VxRail_VCenter-EU",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8000)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "f1dc38c4",
+      "rule_name": "A_DPT-L3_5_To_rDC_3_5_VxRail_VCenter-EU",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8001)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "f1dc38c4",
+      "rule_name": "A_DPT-L3_5_To_rDC_3_5_VxRail_VCenter-EU",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "f1dc38c4",
+      "rule_name": "A_DPT-L3_5_To_rDC_3_5_VxRail_VCenter-EU",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "4974577b",
+      "rule_name": "A_DPT-L4-To_35_Citrix_to_Worker",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "00f4e0da",
+      "rule_name": "[Disabled]  A_DPT-rDC_L3_5_To_3_5_Console",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a8a3a9de",
+      "rule_name": "A_DPT-L4_To_3_5_DPT_MGMT_iLO-via DOD",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "25b1f2d0",
+      "rule_name": "A_DPT-L4_To_3_5_DPT_MGMT_iDRAC-services-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 150,
+      "description": "Rule is overly permissive with 'any' in: source addresses, destination addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "4d003574",
+      "rule_name": "A-DPT-L35_To_L4_Ctera_Basis-Portal",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POP3 (service: TCP-995)",
+      "recommendation": "Use POP3S (port 995) for encrypted email retrieval"
+    },
+    {
+      "rule_id": "4d003574",
+      "rule_name": "A-DPT-L35_To_L4_Ctera_Basis-Portal",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "4d003574",
+      "rule_name": "A-DPT-L35_To_L4_Ctera_Basis-Portal",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "519a5c60",
+      "rule_name": "A-DPT-L4_To_L35_Ctera_Basis-Jump-ssh",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POP3 (service: TCP-995)",
+      "recommendation": "Use POP3S (port 995) for encrypted email retrieval"
+    },
+    {
+      "rule_id": "519a5c60",
+      "rule_name": "A-DPT-L4_To_L35_Ctera_Basis-Jump-ssh",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3e7b36d8",
+      "rule_name": "A-DPT-L2_To_L35_Ctera_Fileshare_access",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "68fa9c8b",
+      "rule_name": "[Disabled]  A_DPT_L3_5_To_3_5_Printing_Module_POC",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "ae579231",
+      "rule_name": "A-DPT-L4_To_L35_Ctera_Fileshare_access-UserID-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "0a618e4a",
+      "rule_name": "[Disabled]  A-DPT-L35_To_L4_Ctera_Basis-SMTP",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "2736a265",
+      "rule_name": "A-DPT-L3_5_To_L4_Ctera_Fileshare_access",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135_NBT)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "2736a265",
+      "rule_name": "A-DPT-L3_5_To_L4_Ctera_Fileshare_access",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: tcp_137_NBT)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "2736a265",
+      "rule_name": "A-DPT-L3_5_To_L4_Ctera_Fileshare_access",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "6df7046a",
+      "rule_name": "A-DPT-L3_5_To_L3_5_CIFS",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POP3 (service: TCP-995)",
+      "recommendation": "Use POP3S (port 995) for encrypted email retrieval"
+    },
+    {
+      "rule_id": "6df7046a",
+      "rule_name": "A-DPT-L3_5_To_L3_5_CIFS",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "86719e24",
+      "rule_name": "A-DPT-L2_To_3_5_LDAPs_infrae2",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/389))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "86719e24",
+      "rule_name": "A-DPT-L2_To_3_5_LDAPs_infrae2",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3268))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "86719e24",
+      "rule_name": "A-DPT-L2_To_3_5_LDAPs_infrae2",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3269))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "86719e24",
+      "rule_name": "A-DPT-L2_To_3_5_LDAPs_infrae2",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/636))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "86719e24",
+      "rule_name": "A-DPT-L2_To_3_5_LDAPs_infrae2",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "86719e24",
+      "rule_name": "A-DPT-L2_To_3_5_LDAPs_infrae2",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "497c91bd",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_WSUS-Not-IT",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "83412afd",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/389))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "83412afd",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3268))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "83412afd",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3269))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "83412afd",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/636))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "83412afd",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "83412afd",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "93697e22",
+      "rule_name": "A_DPT-rDC-L3_To_L35-SCOM-Servers",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/389))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "93697e22",
+      "rule_name": "A_DPT-rDC-L3_To_L35-SCOM-Servers",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3268))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "93697e22",
+      "rule_name": "A_DPT-rDC-L3_To_L35-SCOM-Servers",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3269))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "93697e22",
+      "rule_name": "A_DPT-rDC-L3_To_L35-SCOM-Servers",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/636))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "93697e22",
+      "rule_name": "A_DPT-rDC-L3_To_L35-SCOM-Servers",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "93697e22",
+      "rule_name": "A_DPT-rDC-L3_To_L35-SCOM-Servers",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "f50400cf",
+      "rule_name": "A-DPT-L2_To-rDC-L35_PROXY_INTERNET",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp_8080_PROXY)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "f50400cf",
+      "rule_name": "A-DPT-L2_To-rDC-L35_PROXY_INTERNET",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b6b64ca0",
+      "rule_name": "A-DPT-L3_5_To-S1PROXY",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp_8080_PROXY)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "b6b64ca0",
+      "rule_name": "A-DPT-L3_5_To-S1PROXY",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a7be8185",
+      "rule_name": "[Disabled]  A_DPT-L35_To_L4-PostGreSql_Proxy",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POSTGRESQL (service: [Disabled]  TCP_5432)",
+      "recommendation": "Restrict PostgreSQL access to trusted hosts and enable SSL/TLS encryption for connections"
+    },
+    {
+      "rule_id": "a7be8185",
+      "rule_name": "[Disabled]  A_DPT-L35_To_L4-PostGreSql_Proxy",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3735500c",
+      "rule_name": "A-DPT-L3_5-rDC_To_L3_5_MediaAgent_Replication-TCP-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "3735500c",
+      "rule_name": "A-DPT-L3_5-rDC_To_L3_5_MediaAgent_Replication-TCP-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "2e9f20fe",
+      "rule_name": "A-DPT-L3_5-rDC_To_L3_5_VSA_Replication-TCP",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "2e9f20fe",
+      "rule_name": "A-DPT-L3_5-rDC_To_L3_5_VSA_Replication-TCP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b0beebeb",
+      "rule_name": "A-DPT-L3_5-rDC_To_L3_5_MediaAgent_Replication",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "24ec1e37",
+      "rule_name": "[Disabled]  A-DPT-L3_5-rDC_To_L3_5_VSA_Replication",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "50a9a1cd",
+      "rule_name": "A-DPT-L4_To_L3_5_ComCell-To-VSA",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 125,
+      "description": "Rule is overly permissive with 'any' in: services, applications, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "175033cd",
+      "rule_name": "A-DPT-L3_5_To_rDC-L3_5_Vcenter_MediaAgent-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "49589e71",
+      "rule_name": "A-DPT-L3_To_rDC_L35_OD_API_SQL",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "71b7e120",
+      "rule_name": "A-DPT-rDC35_To_L3_WinRM",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "6255d899",
+      "rule_name": "A-DPT-L3-To_L4_McAfee_ EPO_DPT_OT_ENDPOINT-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "ea35c3e3",
+      "rule_name": "A-DPT-L4-To_L3_McAfee_ EPO_DPT_OT_ENDPOINT-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 155,
+      "description": "Rule is overly permissive with 'any' in: services, applications, source zones, destination zones",
+      "recommendation": "Limit to specific required ports and protocols instead of all services. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "950df492",
+      "rule_name": "A_DPT-L2_To_L4_DEDA1SRVDNS01_DNS",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "047dd6c1",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_RDP",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "5de526b9",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_VNC",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "01d6201b",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_Siemens_S7",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "76f6a71f",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_SSH",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3f152092",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_HTTPS",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "ded5743b",
+      "rule_name": "A_DPT-L35-To_L4_GENUA_Rendezvous",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "bc74fbdd",
+      "rule_name": "A_DPT-L35-To_rDC_GENUA_Genucenter",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "6fd7adca",
+      "rule_name": "A_L4_To_L35-DPT-Jumpbox-Area_Genua_MGMT_SSH",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "39965784",
+      "rule_name": "A_L4_To_L35-DPT-Jumpbox-Area_Genua_MGMT_SNMP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b5012e66",
+      "rule_name": "A_DPT-L35-Jumpbox-Area_To_L4_Genua_MGMT_SNMPTRAP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "1d78e665",
+      "rule_name": "A_L4_to_L3.5_LOCAL_GENUA_ServiceBox-Operator_Access-TEMPLATE",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "02ff1fd2",
+      "rule_name": "A-DPT-L4_To_L35-ADDM-ALL-IT-Zones",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "71ecca24",
+      "rule_name": "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "702edf85",
+      "rule_name": "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones-port",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp-range-1024-65534)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "702edf85",
+      "rule_name": "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones-port",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "fd8634b4",
+      "rule_name": "A-DPT-L4-To_L35_Nessus_Scanning",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "fd8634b4",
+      "rule_name": "A-DPT-L4-To_L35_Nessus_Scanning",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: udp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "fd8634b4",
+      "rule_name": "A-DPT-L4-To_L35_Nessus_Scanning",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "1c86f39b",
+      "rule_name": "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/389))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "1c86f39b",
+      "rule_name": "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3268))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "1c86f39b",
+      "rule_name": "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3269))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "1c86f39b",
+      "rule_name": "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/636))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "1c86f39b",
+      "rule_name": "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "1c86f39b",
+      "rule_name": "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "5777d32f",
+      "rule_name": "A-DPT-L3-To_rDC_L35_SMTP",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "5ce427ef",
+      "rule_name": "[Disabled]  A-DPT-L4_To_L35_FS-ADMIN-Basic",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a718fbe8",
+      "rule_name": "[Disabled]  A-DPT-L4_To_L35_FS-MGMT-Basic",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b37b3e65",
+      "rule_name": "A-DPT-L35_DATADOBi_To_rDC",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "b37b3e65",
+      "rule_name": "A-DPT-L35_DATADOBi_To_rDC",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "6fd58fe2",
+      "rule_name": "[Disabled]  A-DPT-L4_To_L35_NetApp_Jumpbox_SSH",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "da9d6330",
+      "rule_name": "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_Infrae2-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POP3 (service: TCP-995)",
+      "recommendation": "Use POP3S (port 995) for encrypted email retrieval"
+    },
+    {
+      "rule_id": "da9d6330",
+      "rule_name": "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_Infrae2-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a3968b63",
+      "rule_name": "A-DPT_L3_To_L35_MP_Fileshare",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NFS (service: TCP_2049)",
+      "recommendation": "Use NFSv4 with Kerberos authentication and encryption"
+    },
+    {
+      "rule_id": "a3968b63",
+      "rule_name": "A-DPT_L3_To_L35_MP_Fileshare",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NFS (service: UDP_2049)",
+      "recommendation": "Use NFSv4 with Kerberos authentication and encryption"
+    },
+    {
+      "rule_id": "a3968b63",
+      "rule_name": "A-DPT_L3_To_L35_MP_Fileshare",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "179b969f",
+      "rule_name": "A-DPT_L3_To_Regional_MP_Fileshare",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NFS (service: TCP_2049)",
+      "recommendation": "Use NFSv4 with Kerberos authentication and encryption"
+    },
+    {
+      "rule_id": "179b969f",
+      "rule_name": "A-DPT_L3_To_Regional_MP_Fileshare",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NFS (service: UDP_2049)",
+      "recommendation": "Use NFSv4 with Kerberos authentication and encryption"
+    },
+    {
+      "rule_id": "179b969f",
+      "rule_name": "A-DPT_L3_To_Regional_MP_Fileshare",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "6de2a3fe",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_EL_DEV_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "2758cb87",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_EL_PROD_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b01414e4",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_EL_VAL_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "7a5bb782",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_HC_DEV_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "41ee50db",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_HC_PROD_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "825b819e",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_HC_VAL_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a72ebb42",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_LS_DEV_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "151e05ba",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_LS_PROD_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3e25f4f3",
+      "rule_name": "[Disabled]  A_DPT-L3_To_L35_LS_VAL_Data_Historian_AVEVA-PI",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "f05e8385",
+      "rule_name": "[Disabled]  A-DPT-L3_5_To_L4_Linux_Centrify_Ruby",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "81644059",
+      "rule_name": "[Disabled]  A-DPT-L3_5_To_L4_Linux_Centrify_Connectors",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: [Disabled]  TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "81644059",
+      "rule_name": "[Disabled]  A-DPT-L3_5_To_L4_Linux_Centrify_Connectors",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "661a3b00",
+      "rule_name": "[Disabled]  A-DPT-L4_To_L3-Linux-Centrify_Connectors",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "0dc37ec8",
+      "rule_name": "A-DPT-L2-To_L3_5_local-SCCM-DP-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "7211aef9",
+      "rule_name": "A-DPT-L2-To_L4_rDC-SCCM-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "0e6f0b50",
+      "rule_name": "A-DPT-L4_rDC-SCCM-To_L2-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "0e6f0b50",
+      "rule_name": "A-DPT-L4_rDC-SCCM-To_L2-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: udp-135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "0e6f0b50",
+      "rule_name": "A-DPT-L4_rDC-SCCM-To_L2-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "fc41130d",
+      "rule_name": "A-DPT-L3_5_local-SCCM-DP-To_rDC-SCCM-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "fc41130d",
+      "rule_name": "A-DPT-L3_5_local-SCCM-DP-To_rDC-SCCM-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: udp-135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "fc41130d",
+      "rule_name": "A-DPT-L3_5_local-SCCM-DP-To_rDC-SCCM-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a4618807",
+      "rule_name": "A-DPT-L4_rDC-SCCM_To_L3_5_local-SCCM-DP-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "a4618807",
+      "rule_name": "A-DPT-L4_rDC-SCCM_To_L3_5_local-SCCM-DP-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: udp-135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "a4618807",
+      "rule_name": "A-DPT-L4_rDC-SCCM_To_L3_5_local-SCCM-DP-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "0e7a0672",
+      "rule_name": "A-DPT-L2-To_L3_5_regional-SCCM-FileShare",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b52a3e4d",
+      "rule_name": "A-DPT-L4-To_L3_local-SCCM-CITRIX",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "b52a3e4d",
+      "rule_name": "A-DPT-L4-To_L3_local-SCCM-CITRIX",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 110,
+      "description": "Rule is overly permissive with 'any' in: applications, source zones, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "a43b47c9",
+      "rule_name": "A_DPT_LDC_To_L4_CITRIX_Monitoring",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3761fd24",
+      "rule_name": "A_ICS_to_Merck_DNS-L4-Transfer",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "138f3e45",
+      "rule_name": "A_Versum_Acronis_To_L4",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "682b0a0f",
+      "rule_name": "A_Campus_TO_L4_600-Special-SVR-0",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "839ae52e",
+      "rule_name": "Allow_L4-to-ICS_Transfer-SSH",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 150,
+      "description": "Rule is overly permissive with 'any' in: source addresses, destination addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "95b55475",
+      "rule_name": "A_ICS-Multi-Zone_To_InternalNetAppShares",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: Versum_netbios_TCP)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "95b55475",
+      "rule_name": "A_ICS-Multi-Zone_To_InternalNetAppShares",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "87ee9aa8",
+      "rule_name": "Allow_ICS-to_L4_LDAP",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "08e712d3",
+      "rule_name": "Allow_W-MGMT_to_Analytical",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "08e712d3",
+      "rule_name": "Allow_W-MGMT_to_Analytical",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP-)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "08e712d3",
+      "rule_name": "Allow_W-MGMT_to_Analytical",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b55c0aaf",
+      "rule_name": "[Disabled]  Allow_Analytical_To_L4_https",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "51a27e80",
+      "rule_name": "Allow_ICS_To_L4-NET-TACACs-ISE",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "aea498a8",
+      "rule_name": "Allow_ICS_to_Support-Servers_ICMP",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "8b166a2f",
+      "rule_name": "Allow_access_Wifi_VLAN_50_To_VLAN_30",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "8b166a2f",
+      "rule_name": "Allow_access_Wifi_VLAN_50_To_VLAN_30",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "8b166a2f",
+      "rule_name": "Allow_access_Wifi_VLAN_50_To_VLAN_30",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "8b166a2f",
+      "rule_name": "Allow_access_Wifi_VLAN_50_To_VLAN_30",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "33af83a2",
+      "rule_name": "Allow_ICS_to_NetOp-Servers_NetOp",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "b4e3c37e",
+      "rule_name": "Allow_ICS_to_Acronics_11.7-Servers",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMTP (service: tcp_25001_Acronis)",
+      "recommendation": "Use SMTPS (port 465/587) or enforce STARTTLS for secure mail transfer"
+    },
+    {
+      "rule_id": "b4e3c37e",
+      "rule_name": "Allow_ICS_to_Acronics_11.7-Servers",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "aff7d0ae",
+      "rule_name": "[Disabled]  Allow_ICS_to_Acronics_12.5-Servers",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "828b1dfc",
+      "rule_name": "[Disabled]  Allow-ICS_To_Acronis_Port-Access",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: [Disabled]  tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "828b1dfc",
+      "rule_name": "[Disabled]  Allow-ICS_To_Acronis_Port-Access",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "18ed297a",
+      "rule_name": "Allow_ICS_to_Carbon-yards_https",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/389))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3268))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/3269))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/636))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: LDAP (service: ldap (tcp/))",
+      "recommendation": "Use LDAPS (port 636) for encrypted directory access"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: netbios-ns (tcp/137))",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: netbios-ns (tcp/))",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135_NBT)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: Versum_netbios)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "cc5e9cbb",
+      "rule_name": "Allow_ICS_to_AD-Azure",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "d4ba16f1",
+      "rule_name": "Allow_ICS_to_Infoblox-Servers",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "e7a7ab45",
+      "rule_name": "Allow_L4-to_ICS_B_A-Netop",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: destination addresses, applications, destination zones",
+      "recommendation": "Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp-50000-50001)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135_NBT)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP-)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: udp_1434_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "51def3b4",
+      "rule_name": "A_DPT_L4_To_ICS_B_A",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "dff321d1",
+      "rule_name": "A_DPT_L4_To_ICS_B",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "33927c20",
+      "rule_name": "A_DPT_ICS_B_to_L4",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "33927c20",
+      "rule_name": "A_DPT_ICS_B_to_L4",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RDP (service: tcp_3389_RDP-)",
+      "recommendation": "Implement RDP with Network Level Authentication and restrict access"
+    },
+    {
+      "rule_id": "33927c20",
+      "rule_name": "A_DPT_ICS_B_to_L4",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "88faf7d2",
+      "rule_name": "A_DPT_ICS_B_A_To_L4",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "dd814eb8",
+      "rule_name": "Allow_ICS_Sys_To_usbe1w101131",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp-5000)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "dd814eb8",
+      "rule_name": "Allow_ICS_Sys_To_usbe1w101131",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "dd814eb8",
+      "rule_name": "Allow_ICS_Sys_To_usbe1w101131",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "dd814eb8",
+      "rule_name": "Allow_ICS_Sys_To_usbe1w101131",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "5e571424",
+      "rule_name": "Allow_ICS_to_NTP-Servers",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "409c8cd9",
+      "rule_name": "Allow_ICS-to-L4",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: netbios-ns (tcp/137))",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "409c8cd9",
+      "rule_name": "Allow_ICS-to-L4",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: netbios-ns (tcp/))",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "409c8cd9",
+      "rule_name": "Allow_ICS-to-L4",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: netbios-ss (tcp/139))",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "409c8cd9",
+      "rule_name": "Allow_ICS-to-L4",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: tcp_137_NBT)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "409c8cd9",
+      "rule_name": "Allow_ICS-to-L4",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "121037e1",
+      "rule_name": "Allow_WifiZone-to-ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: dns-over-https (tcp/80))",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "121037e1",
+      "rule_name": "Allow_WifiZone-to-ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: dns-over-https (tcp/443))",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "121037e1",
+      "rule_name": "Allow_WifiZone-to-ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135_NBT)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "121037e1",
+      "rule_name": "Allow_WifiZone-to-ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: tcp_137)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "121037e1",
+      "rule_name": "Allow_WifiZone-to-ICS_B_A",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: udp_137_NBT)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "121037e1",
+      "rule_name": "Allow_WifiZone-to-ICS_B_A",
+      "issue_type": "overly_permissive",
+      "risk_level": "critical",
+      "score": 150,
+      "description": "Rule is overly permissive with 'any' in: source addresses, destination addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Specify exact destination servers or networks rather than broad ranges. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "97a41bfa",
+      "rule_name": "A_DPT_WiFi_Zone_To_",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "298ec778",
+      "rule_name": "[Disabled]  Allow_ICS_SMTP",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp-50000-50001)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: tcp_137)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POSTGRESQL (service: TCP_5432)",
+      "recommendation": "Restrict PostgreSQL access to trusted hosts and enable SSL/TLS encryption for connections"
+    },
+    {
+      "rule_id": "86d40951",
+      "rule_name": "Allow_L4-to-Syn_Backup",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: TCP-8080)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp-50000-50001)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: tcp_137)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "critical",
+      "score": 100,
+      "description": "Rule allows insecure protocol: SMBV1 (service: tcp_445)",
+      "recommendation": "Disable SMBv1 immediately and upgrade to SMBv3"
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: POSTGRESQL (service: TCP_5432)",
+      "recommendation": "Restrict PostgreSQL access to trusted hosts and enable SSL/TLS encryption for connections"
+    },
+    {
+      "rule_id": "c529fd29",
+      "rule_name": "Allow_L4-to-Syn_Backup-1",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "170ca2c8",
+      "rule_name": "Allow_ICS_To_L4_smbv3",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "50215c2e",
+      "rule_name": "[Disabled]  Allow_Anaylticals_To_ICS",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: NETBIOS (service: [Disabled]  137-tcp)",
+      "recommendation": "Disable NetBIOS unless absolutely required"
+    },
+    {
+      "rule_id": "50215c2e",
+      "rule_name": "[Disabled]  Allow_Anaylticals_To_ICS",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: [Disabled]  tcp_135_NBT)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "50215c2e",
+      "rule_name": "[Disabled]  Allow_Anaylticals_To_ICS",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: [Disabled]  tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "50215c2e",
+      "rule_name": "[Disabled]  Allow_Anaylticals_To_ICS",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "3cffbca4",
+      "rule_name": "[Disabled]  A_L4-AWS_To_ICS-B-A_FoundryHistorian",
+      "issue_type": "overly_permissive",
+      "risk_level": "low",
+      "score": 55,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "645354b2",
+      "rule_name": "Allow_L4_To_L4_HTTP",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: HTTP (service: tcp-50000-50001)",
+      "recommendation": "Use HTTPS instead of HTTP for encrypted communication"
+    },
+    {
+      "rule_id": "645354b2",
+      "rule_name": "Allow_L4_To_L4_HTTP",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "645354b2",
+      "rule_name": "Allow_L4_To_L4_HTTP",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "645354b2",
+      "rule_name": "Allow_L4_To_L4_HTTP",
+      "issue_type": "overly_permissive",
+      "risk_level": "high",
+      "score": 115,
+      "description": "Rule is overly permissive with 'any' in: source addresses, applications, destination zones",
+      "recommendation": "Define specific source IP addresses or subnets using least privilege. Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "0e028ff4",
+      "rule_name": "Allow_L4-JumpServer_To_ICS-B-A_SQL",
+      "issue_type": "insecure_protocol",
+      "risk_level": "high",
+      "score": 100,
+      "description": "Rule allows insecure protocol: RPC (service: tcp_135)",
+      "recommendation": "Restrict RPC exposure and use secure alternatives where possible"
+    },
+    {
+      "rule_id": "0e028ff4",
+      "rule_name": "Allow_L4-JumpServer_To_ICS-B-A_SQL",
+      "issue_type": "insecure_protocol",
+      "risk_level": "medium",
+      "score": 100,
+      "description": "Rule allows insecure protocol: IMAP (service: tcp_1433_SQL)",
+      "recommendation": "Use IMAPS (port 993) for encrypted email access"
+    },
+    {
+      "rule_id": "0e028ff4",
+      "rule_name": "Allow_L4-JumpServer_To_ICS-B-A_SQL",
+      "issue_type": "overly_permissive",
+      "risk_level": "medium",
+      "score": 65,
+      "description": "Rule is overly permissive with 'any' in: applications, destination zones",
+      "recommendation": "Define specific applications instead of 'any' to control application-layer traffic. Implement proper network segmentation with defined zones. Consider implementing Zero Trust principles."
+    },
+    {
+      "rule_id": "2a0e4faf",
+      "rule_name": "A-DPT-L35_To_L4_Netapp_SMTP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "4a4f93d0",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_SCCM-Management-Point",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "8ff4b2dd",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_LicensingSRV",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "53a2da56",
+      "rule_name": "A_DPT-L35-To_4_Citrix_to_RDS_License_SRV",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "19f6f009",
+      "rule_name": "A_DPT-L4_To_35_ADDM_SCAN_only_35",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "27bacc59",
+      "rule_name": "A_DPT-L3_5_To_3_5_DNS_NTP_DHCP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "e066f5da",
+      "rule_name": "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_SCOM",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "27d1d71f",
+      "rule_name": "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_AD",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "58505ed9",
+      "rule_name": "A_DPT-L2-To_rDC35_WinRM",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "e1f19608",
+      "rule_name": "A_From_DPT-rDC-L3_5_Jumpbox-To-L3",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "a2c1d757",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_DNS_DHCP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "d6917246",
+      "rule_name": "A-DPT-L2_To_rDC_3_5_NTP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "8522bf46",
+      "rule_name": "A_DPT-L35_To_3_ADDM_SCAN-WK-SRV",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "e6a376c1",
+      "rule_name": "A_DPT-L35_To_3_LOCAL_WK-SRV",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "b51cef83",
+      "rule_name": "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "f86a0352",
+      "rule_name": "A_DPT-rDC-L3_5-To-L3_RDP_Via_Citrix_From_rDC",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "b641c949",
+      "rule_name": "A-DPT-rDC35_To_L2_Cyberark_mgmt",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "a2c8974c",
+      "rule_name": "A-DPT-rDC35_To_L2_Cyberark_RDP_SSH",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "3773016c",
+      "rule_name": "A-DPT-L2_To_3_5_AD-1",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "194e811c",
+      "rule_name": "A-DPT-L3_5_To_L3_5_CommVault-To-ESXi-1",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "476db780",
+      "rule_name": "A_DPT-L3_5_To_L4_ONE_AD_LDAP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "4974577b",
+      "rule_name": "A_DPT-L4-To_35_Citrix_to_Worker",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "3e7b36d8",
+      "rule_name": "A-DPT-L2_To_L35_Ctera_Fileshare_access",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "ae579231",
+      "rule_name": "A-DPT-L4_To_L35_Ctera_Fileshare_access-UserID-1",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "175033cd",
+      "rule_name": "A-DPT-L3_5_To_rDC-L3_5_Vcenter_MediaAgent-1",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "49589e71",
+      "rule_name": "A-DPT-L3_To_rDC_L35_OD_API_SQL",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "6255d899",
+      "rule_name": "A-DPT-L3-To_L4_McAfee_ EPO_DPT_OT_ENDPOINT-1",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "950df492",
+      "rule_name": "A_DPT-L2_To_L4_DEDA1SRVDNS01_DNS",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "047dd6c1",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_RDP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "5de526b9",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_VNC",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "01d6201b",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_Siemens_S7",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "76f6a71f",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_SSH",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "3f152092",
+      "rule_name": "A_DPT-L35-To_Local_GENUA_HTTPS",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "ded5743b",
+      "rule_name": "A_DPT-L35-To_L4_GENUA_Rendezvous",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "6fd7adca",
+      "rule_name": "A_L4_To_L35-DPT-Jumpbox-Area_Genua_MGMT_SSH",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "39965784",
+      "rule_name": "A_L4_To_L35-DPT-Jumpbox-Area_Genua_MGMT_SNMP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "b5012e66",
+      "rule_name": "A_DPT-L35-Jumpbox-Area_To_L4_Genua_MGMT_SNMPTRAP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "1d78e665",
+      "rule_name": "A_L4_to_L3.5_LOCAL_GENUA_ServiceBox-Operator_Access-TEMPLATE",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "02ff1fd2",
+      "rule_name": "A-DPT-L4_To_L35-ADDM-ALL-IT-Zones",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "71ecca24",
+      "rule_name": "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "5777d32f",
+      "rule_name": "A-DPT-L3-To_rDC_L35_SMTP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "a718fbe8",
+      "rule_name": "[Disabled]  A-DPT-L4_To_L35_FS-MGMT-Basic",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule '[Disabled]  A-DPT-L4_To_L35_FS-ADMIN-Basic' (ID: 5ce427ef)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "da9d6330",
+      "rule_name": "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_Infrae2-1",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-L3_To_L35_Ctera_Fileshare_ONE_userid-1' (ID: 97f278e6)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "a43b47c9",
+      "rule_name": "A_DPT_LDC_To_L4_CITRIX_Monitoring",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "3761fd24",
+      "rule_name": "A_ICS_to_Merck_DNS-L4-Transfer",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "682b0a0f",
+      "rule_name": "A_Campus_TO_L4_600-Special-SVR-0",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "839ae52e",
+      "rule_name": "Allow_L4-to-ICS_Transfer-SSH",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "87ee9aa8",
+      "rule_name": "Allow_ICS-to_L4_LDAP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "51a27e80",
+      "rule_name": "Allow_ICS_To_L4-NET-TACACs-ISE",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "aea498a8",
+      "rule_name": "Allow_ICS_to_Support-Servers_ICMP",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "88faf7d2",
+      "rule_name": "A_DPT_ICS_B_A_To_L4",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "97a41bfa",
+      "rule_name": "A_DPT_WiFi_Zone_To_",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    },
+    {
+      "rule_id": "170ca2c8",
+      "rule_name": "Allow_ICS_To_L4_smbv3",
+      "issue_type": "shadowed",
+      "risk_level": "high",
+      "score": 65,
+      "description": "Rule is shadowed by earlier rule 'A_DPT-Ping' (ID: ded97091)",
+      "recommendation": "Review rule order or remove shadowed rule to avoid confusion"
+    }
+  ],
+  "findings_by_rule": {
+    "A_DPT-Ping": {
+      "total_findings": 1,
+      "total_score": 180,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A_DPT_L3_5-To-L4_S1proxy_Access-1": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L35-To_4_Citrix_to_LicensingSRV-2": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A_DPT-L35-To_4_Citrix_to_Local_Vcenter": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A-DPT-L35_To_L4_Netapp_OCUM": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A-DPT-L35_To_L4_Netapp_DR_Replication-1": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L35_To_L4_Netapp_Ext_Logs_Collection": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L35_To_L4_Netapp_SMTP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L3_5_To_L2_Backup_SRV-1way": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A-DPT-L3_5_To_L2_Backup_SRV-2way": {
+      "total_findings": 1,
+      "total_score": 155,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "[Disabled]  A_LDC_35_VSA_Mediaagent_To_IDRAC_HPE_Apollo": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_SCCM-Management-Point": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "[Disabled]  A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_ADDM-Tideway-SERVICE": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_ADDM-Tideway-APP": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A_DPT-L35-To_4_Citrix_to_LicensingSRV": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L35-To_4_Citrix_to_RDS_License_SRV": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L4_To_35_ADDM_SCAN_only_35": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L3_5_To_3_5_DNS_NTP_DHCP": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-L35_To_L4_IACs-Jumpbox": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_MS-UPDATE": {
+      "total_findings": 1,
+      "total_score": 160,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_SCOM": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_KMS": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "A_DPT-L35-To_4_Jump_AND_Citrix_DNEU_AD": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "[Disabled]  A_DPT-rD_L3_5_To_ILO-Inciga_Monitoring": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A_DPT-L2-To_rDC35_WinRM": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_From_DPT-rDC-L3_5_Jumpbox-To-L3": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-ALL_To_rD_L35_IACs-Exception": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-ALL_To_rD_L35_IACs": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_KMS": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_DNS_DHCP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_NTP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_SMB_Share": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A_DPT-L35_To_3_ADDM_SCAN-WK-SRV": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35_To_3_LOCAL_WK-SRV": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_WSUS": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_WSUS-PC": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L3_To_rDC-L35-Oracle_GOEMP_Services-1": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A_DPT_L3.5_L4_OMS_To_Agent_temporary_bi-directional-Ports": {
+      "total_findings": 1,
+      "total_score": 110,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "A_DPT-rDC-L3_5-To-L3_RDP_Via_Citrix_From_rDC": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-ALL_To_rD_L35_IACs_Choco": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_userid-1": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-rDC35_To_L2_Cyberark_mgmt": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-rDC35_To_L2_Cyberark_RDP_SSH": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-L2_To_3_5_AD-1": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "[Disabled]  A-DPT-L2_To_3_5_AD-linux": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A-DPT-L3_5_To_L3_5_CommVault-To-ESXi-1": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L3_5_To_L4_ONE_AD_LDAP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L3_5_To_rDC_3_5_VxRail_VCenter-EU": {
+      "total_findings": 4,
+      "total_score": 365,
+      "risk_levels": {
+        "medium": 4
+      }
+    },
+    "A_DPT-L4-To_35_Citrix_to_Worker": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "[Disabled]  A_DPT-rDC_L3_5_To_3_5_Console": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A_DPT-L4_To_3_5_DPT_MGMT_iLO-via DOD": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "A_DPT-L4_To_3_5_DPT_MGMT_iDRAC-services-1": {
+      "total_findings": 1,
+      "total_score": 150,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A-DPT-L35_To_L4_Ctera_Basis-Portal": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "medium": 3
+      }
+    },
+    "A-DPT-L4_To_L35_Ctera_Basis-Jump-ssh": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L2_To_L35_Ctera_Fileshare_access": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "[Disabled]  A_DPT_L3_5_To_3_5_Printing_Module_POC": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A-DPT-L4_To_L35_Ctera_Fileshare_access-UserID-1": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "[Disabled]  A-DPT-L35_To_L4_Ctera_Basis-SMTP": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A-DPT-L3_5_To_L4_Ctera_Fileshare_access": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "high": 2,
+        "medium": 1
+      }
+    },
+    "A-DPT-L3_5_To_L3_5_CIFS": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L2_To_3_5_LDAPs_infrae2": {
+      "total_findings": 6,
+      "total_score": 565,
+      "risk_levels": {
+        "medium": 6
+      }
+    },
+    "A-DPT-L2_To_rDC_3_5_WSUS-Not-IT": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A_DPT-rDC-L35_To_L3-SQL-DB-Mgmt-Services-Bi-Directional": {
+      "total_findings": 6,
+      "total_score": 610,
+      "risk_levels": {
+        "medium": 5,
+        "high": 1
+      }
+    },
+    "A_DPT-rDC-L3_To_L35-SCOM-Servers": {
+      "total_findings": 6,
+      "total_score": 610,
+      "risk_levels": {
+        "medium": 5,
+        "high": 1
+      }
+    },
+    "A-DPT-L2_To-rDC-L35_PROXY_INTERNET": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L3_5_To-S1PROXY": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "[Disabled]  A_DPT-L35_To_L4-PostGreSql_Proxy": {
+      "total_findings": 2,
+      "total_score": 155,
+      "risk_levels": {
+        "medium": 1,
+        "low": 1
+      }
+    },
+    "A-DPT-L3_5-rDC_To_L3_5_MediaAgent_Replication-TCP-1": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L3_5-rDC_To_L3_5_VSA_Replication-TCP": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "A-DPT-L3_5-rDC_To_L3_5_MediaAgent_Replication": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "[Disabled]  A-DPT-L3_5-rDC_To_L3_5_VSA_Replication": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A-DPT-L4_To_L3_5_ComCell-To-VSA": {
+      "total_findings": 1,
+      "total_score": 125,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A-DPT-L3_5_To_rDC-L3_5_Vcenter_MediaAgent-1": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L3_To_rDC_L35_OD_API_SQL": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-rDC35_To_L3_WinRM": {
+      "total_findings": 1,
+      "total_score": 110,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "A-DPT-L3-To_L4_McAfee_ EPO_DPT_OT_ENDPOINT-1": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L4-To_L3_McAfee_ EPO_DPT_OT_ENDPOINT-1": {
+      "total_findings": 1,
+      "total_score": 155,
+      "risk_levels": {
+        "critical": 1
+      }
+    },
+    "A_DPT-L2_To_L4_DEDA1SRVDNS01_DNS": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L35-To_Local_GENUA_RDP": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35-To_Local_GENUA_VNC": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35-To_Local_GENUA_Siemens_S7": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35-To_Local_GENUA_SSH": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35-To_Local_GENUA_HTTPS": {
+      "total_findings": 2,
+      "total_score": 175,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_DPT-L35-To_L4_GENUA_Rendezvous": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L35-To_rDC_GENUA_Genucenter": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A_L4_To_L35-DPT-Jumpbox-Area_Genua_MGMT_SSH": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_L4_To_L35-DPT-Jumpbox-Area_Genua_MGMT_SNMP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT-L35-Jumpbox-Area_To_L4_Genua_MGMT_SNMPTRAP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_L4_to_L3.5_LOCAL_GENUA_ServiceBox-Operator_Access-TEMPLATE": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-L4_To_L35-ADDM-ALL-IT-Zones": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A-DPT-L4_To_L35-SNOW-Discovery-ALL-IT-Zones-port": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L4-To_L35_Nessus_Scanning": {
+      "total_findings": 3,
+      "total_score": 315,
+      "risk_levels": {
+        "critical": 2,
+        "high": 1
+      }
+    },
+    "A-DPT-L35_To_rDC_L4_LDAPs_MGMT_iDRAC": {
+      "total_findings": 6,
+      "total_score": 615,
+      "risk_levels": {
+        "medium": 5,
+        "high": 1
+      }
+    },
+    "A-DPT-L3-To_rDC_L35_SMTP": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "[Disabled]  A-DPT-L4_To_L35_FS-ADMIN-Basic": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A-DPT-L4_To_L35_FS-MGMT-Basic": {
+      "total_findings": 2,
+      "total_score": 120,
+      "risk_levels": {
+        "low": 1,
+        "high": 1
+      }
+    },
+    "A-DPT-L35_DATADOBi_To_rDC": {
+      "total_findings": 2,
+      "total_score": 165,
+      "risk_levels": {
+        "medium": 2
+      }
+    },
+    "[Disabled]  A-DPT-L4_To_L35_NetApp_Jumpbox_SSH": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A_DPT-L3_To_L35_Ctera_Fileshare_ONE_Infrae2-1": {
+      "total_findings": 3,
+      "total_score": 230,
+      "risk_levels": {
+        "medium": 2,
+        "high": 1
+      }
+    },
+    "A-DPT_L3_To_L35_MP_Fileshare": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "high": 2,
+        "medium": 1
+      }
+    },
+    "A-DPT_L3_To_Regional_MP_Fileshare": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "high": 2,
+        "medium": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_EL_DEV_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_EL_PROD_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_EL_VAL_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_HC_DEV_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_HC_PROD_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_HC_VAL_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_LS_DEV_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_LS_PROD_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A_DPT-L3_To_L35_LS_VAL_Data_Historian_AVEVA-PI": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A-DPT-L3_5_To_L4_Linux_Centrify_Ruby": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  A-DPT-L3_5_To_L4_Linux_Centrify_Connectors": {
+      "total_findings": 2,
+      "total_score": 155,
+      "risk_levels": {
+        "medium": 1,
+        "low": 1
+      }
+    },
+    "[Disabled]  A-DPT-L4_To_L3-Linux-Centrify_Connectors": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "A-DPT-L2-To_L3_5_local-SCCM-DP-1": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A-DPT-L2-To_L4_rDC-SCCM-1": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A-DPT-L4_rDC-SCCM-To_L2-1": {
+      "total_findings": 3,
+      "total_score": 310,
+      "risk_levels": {
+        "medium": 1,
+        "high": 2
+      }
+    },
+    "A-DPT-L3_5_local-SCCM-DP-To_rDC-SCCM-1": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "medium": 2,
+        "high": 1
+      }
+    },
+    "A-DPT-L4_rDC-SCCM_To_L3_5_local-SCCM-DP-1": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "medium": 2,
+        "high": 1
+      }
+    },
+    "A-DPT-L2-To_L3_5_regional-SCCM-FileShare": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A-DPT-L4-To_L3_local-SCCM-CITRIX": {
+      "total_findings": 2,
+      "total_score": 210,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_DPT_LDC_To_L4_CITRIX_Monitoring": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "A_ICS_to_Merck_DNS-L4-Transfer": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "A_Versum_Acronis_To_L4": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A_Campus_TO_L4_600-Special-SVR-0": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "Allow_L4-to-ICS_Transfer-SSH": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "critical": 1,
+        "high": 1
+      }
+    },
+    "A_ICS-Multi-Zone_To_InternalNetAppShares": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "Allow_ICS-to_L4_LDAP": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "Allow_W-MGMT_to_Analytical": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "high": 1,
+        "medium": 2
+      }
+    },
+    "[Disabled]  Allow_Analytical_To_L4_https": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "Allow_ICS_To_L4-NET-TACACs-ISE": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "Allow_ICS_to_Support-Servers_ICMP": {
+      "total_findings": 2,
+      "total_score": 180,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "Allow_access_Wifi_VLAN_50_To_VLAN_30": {
+      "total_findings": 4,
+      "total_score": 365,
+      "risk_levels": {
+        "high": 1,
+        "critical": 1,
+        "medium": 2
+      }
+    },
+    "Allow_ICS_to_NetOp-Servers_NetOp": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "Allow_ICS_to_Acronics_11.7-Servers": {
+      "total_findings": 2,
+      "total_score": 215,
+      "risk_levels": {
+        "high": 2
+      }
+    },
+    "[Disabled]  Allow_ICS_to_Acronics_12.5-Servers": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "[Disabled]  Allow-ICS_To_Acronis_Port-Access": {
+      "total_findings": 2,
+      "total_score": 155,
+      "risk_levels": {
+        "critical": 1,
+        "low": 1
+      }
+    },
+    "Allow_ICS_to_Carbon-yards_https": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "Allow_ICS_to_AD-Azure": {
+      "total_findings": 10,
+      "total_score": 1015,
+      "risk_levels": {
+        "medium": 5,
+        "high": 5
+      }
+    },
+    "Allow_ICS_to_Infoblox-Servers": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "Allow_L4-to_ICS_B_A-Netop": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "A_DPT_L4_To_ICS_B_A": {
+      "total_findings": 7,
+      "total_score": 665,
+      "risk_levels": {
+        "medium": 5,
+        "high": 1,
+        "critical": 1
+      }
+    },
+    "A_DPT_L4_To_ICS_B": {
+      "total_findings": 1,
+      "total_score": 65,
+      "risk_levels": {
+        "medium": 1
+      }
+    },
+    "A_DPT_ICS_B_to_L4": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "medium": 3
+      }
+    },
+    "A_DPT_ICS_B_A_To_L4": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "Allow_ICS_Sys_To_usbe1w101131": {
+      "total_findings": 4,
+      "total_score": 365,
+      "risk_levels": {
+        "medium": 2,
+        "high": 1,
+        "critical": 1
+      }
+    },
+    "Allow_ICS_to_NTP-Servers": {
+      "total_findings": 1,
+      "total_score": 115,
+      "risk_levels": {
+        "high": 1
+      }
+    },
+    "Allow_ICS-to-L4": {
+      "total_findings": 5,
+      "total_score": 515,
+      "risk_levels": {
+        "high": 4,
+        "critical": 1
+      }
+    },
+    "Allow_WifiZone-to-ICS_B_A": {
+      "total_findings": 6,
+      "total_score": 650,
+      "risk_levels": {
+        "medium": 2,
+        "high": 3,
+        "critical": 1
+      }
+    },
+    "A_DPT_WiFi_Zone_To_": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "[Disabled]  Allow_ICS_SMTP": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "Allow_L4-to-Syn_Backup": {
+      "total_findings": 7,
+      "total_score": 665,
+      "risk_levels": {
+        "medium": 5,
+        "high": 1,
+        "critical": 1
+      }
+    },
+    "Allow_L4-to-Syn_Backup-1": {
+      "total_findings": 7,
+      "total_score": 715,
+      "risk_levels": {
+        "medium": 4,
+        "high": 2,
+        "critical": 1
+      }
+    },
+    "Allow_ICS_To_L4_smbv3": {
+      "total_findings": 2,
+      "total_score": 130,
+      "risk_levels": {
+        "medium": 1,
+        "high": 1
+      }
+    },
+    "[Disabled]  Allow_Anaylticals_To_ICS": {
+      "total_findings": 4,
+      "total_score": 355,
+      "risk_levels": {
+        "high": 2,
+        "medium": 1,
+        "low": 1
+      }
+    },
+    "[Disabled]  A_L4-AWS_To_ICS-B-A_FoundryHistorian": {
+      "total_findings": 1,
+      "total_score": 55,
+      "risk_levels": {
+        "low": 1
+      }
+    },
+    "Allow_L4_To_L4_HTTP": {
+      "total_findings": 4,
+      "total_score": 415,
+      "risk_levels": {
+        "medium": 2,
+        "high": 2
+      }
+    },
+    "Allow_L4-JumpServer_To_ICS-B-A_SQL": {
+      "total_findings": 3,
+      "total_score": 265,
+      "risk_levels": {
+        "high": 1,
+        "medium": 2
+      }
+    }
+  }
+}

@@ -108,16 +108,5 @@
                 "check_logging": true
             }
         }
-    },
-    "posture_rating": {
-        "_comment": "Overall rating on the finding scale (Critical/High/Medium/Low). Each assessed rule counts once by its most severe open issue, weighted relative to critical; score = 100 * (1 - weighted share). The score picks a band, then a floor applies: any critical issue rates at least High, any high issue at least Medium. See core/posture.py.",
-        "weights": {"critical": 1.0, "high": 0.5, "medium": 0.2, "low": 0.05, "info": 0.0},
-        "bands": [
-            {"rating": "Low", "min_score": 85},
-            {"rating": "Medium", "min_score": 70},
-            {"rating": "High", "min_score": 50},
-            {"rating": "Critical", "min_score": 0}
-        ],
-        "floors": {"critical": "High", "high": "Medium"}
     }
 }

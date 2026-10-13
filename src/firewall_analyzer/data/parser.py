@@ -31,8 +31,7 @@ class SchemaNormalizer:
         if any(indicator in fieldnames_lower for indicator in cisco_indicators):
             return VendorType.CISCO_ASA
 
-        # FortiGate detection: match the actual export headers (PolicyID, SrcZone, etc.)
-        fortinet_indicators = ['policyid', 'srczone', 'dstzone', 'sourceaddress', 'destinationaddress']
+        fortinet_indicators = ['policyid', 'srcintf', 'dstintf', 'srcaddr', 'dstaddr']
         if all(indicator in fieldnames_lower for indicator in fortinet_indicators):
             return VendorType.FORTINET
 
@@ -51,28 +50,17 @@ class SchemaNormalizer:
         normalized = {}
 
         for normalized_field, vendor_field in self.field_mappings.items():
-            # A mapping may name one column or several alternatives. Vendors
-            # change their export headers between versions (FortiGate ships
-            # both "PolicyID/SrcZone" and "ID/From"), so accepting a list lets
-            # one schema read either without guessing at the vendor.
-            candidates = vendor_field if isinstance(vendor_field, list) else [vendor_field]
+            vendor_field_lower = vendor_field.lower().replace(' ', '_').replace('-', '_')
             value = None
 
-            for candidate in candidates:
-                if candidate in row and str(row[candidate]).strip() != "":
-                    value = row[candidate]
-                    break
-
-                candidate_key = candidate.lower().replace(' ', '_').replace('-', '_')
+            if vendor_field in row:
+                value = row[vendor_field]
+            else:
                 for field_name, field_value in row.items():
-                    if field_name is None:
-                        continue
                     field_name_normalized = field_name.lower().replace(' ', '_').replace('-', '_')
-                    if field_name_normalized == candidate_key and str(field_value).strip() != "":
+                    if field_name_normalized == vendor_field_lower:
                         value = field_value
                         break
-                if value is not None:
-                    break
 
             normalized[normalized_field] = value if value is not None else ''
 
@@ -121,29 +109,16 @@ class SchemaNormalizer:
                 normalized['services'] = ['any']
 
         elif self.vendor_type == VendorType.FORTINET:
-            # FIX: 'disabled' now maps to the FortiGate "Enabled" column (TRUE = enabled,
-            # FALSE = disabled) which is INVERTED vs a "Disabled" column. So the rule is
-            # disabled only when the value is FALSE/no/0/disable.
-            enabled_val = str(normalized.get('disabled', '')).strip().lower()
-            if enabled_val == '':
-                # No value -> assume the rule is active (enabled)
-                normalized['disabled'] = False
+            if 'disabled' in normalized and normalized['disabled']:
+                normalized['disabled'] = normalized['disabled'].lower() != 'enable'
             else:
-                normalized['disabled'] = enabled_val in ['false', 'no', '0', 'disable', 'disabled']
+                normalized['disabled'] = True
 
-            # FIX: include 'applications' so app-risk analysis works on FortiGate
-            for field in ['source_zones', 'dest_zones', 'source_addresses',
-                          'dest_addresses', 'services', 'applications']:
+            for field in ['source_zones', 'dest_zones', 'source_addresses', 'dest_addresses', 'services']:
                 if normalized.get(field):
                     normalized[field] = self._parse_multiple_values(normalized[field])
                 else:
                     normalized[field] = ['any']
-
-            # FIX: 'rule_usage' now maps to HitCount. Convert to used/unused so the
-            # unused-rule detector (which checks for 'unused') keeps working.
-            hitcount = str(normalized.get('rule_usage', '')).strip()
-            if hitcount.isdigit():
-                normalized['rule_usage'] = 'unused' if int(hitcount) == 0 else 'used'
 
         elif self.vendor_type == VendorType.CHECKPOINT:
             if 'disabled' in normalized and normalized['disabled']:
@@ -187,15 +162,6 @@ class SchemaNormalizer:
                     normalized[field] = ['any']
                 else:
                     normalized[field] = 'allow'
-
-        # FIX: Universal action normalization so every analyzer can rely on
-        # 'allow'/'deny'. FortiGate uses ACCEPT/DENY, others use permit/drop/etc.
-        action_val = str(normalized.get('action', '')).strip().lower()
-        action_map = {
-            'accept': 'allow', 'permit': 'allow', 'allow': 'allow', 'pass': 'allow',
-            'deny': 'deny', 'drop': 'deny', 'reject': 'deny', 'block': 'deny',
-        }
-        normalized['action'] = action_map.get(action_val, action_val if action_val else 'allow')
 
         if 'rule_id' not in normalized or not normalized['rule_id']:
             normalized['rule_id'] = hashlib.md5(str(original_row).encode()).hexdigest()[:8]
@@ -245,7 +211,11 @@ class MultiVendorCSVParser:
         """Parse CSV file into normalized FirewallRule objects"""
         rules = []
 
-        with open(csv_file_path, 'r', encoding='utf-8-sig') as csvfile:
+        with open(csv_file_path, 'r', encoding='utf-8') as csvfile:
+            first_line = csvfile.readline()
+            if not first_line.startswith('Column1'):
+                csvfile.seek(0)
+
             reader = csv.DictReader(csvfile)
 
             if self.vendor_type is None:
@@ -258,14 +228,6 @@ class MultiVendorCSVParser:
 
             for row in reader:
                 normalized_data = self.schema_normalizer.normalize_row(row)
-
-                # Palo Alto hides a disabled rule by prefixing its Action with
-                # "[Disabled]" rather than using the Disabled column. Scoped to
-                # that vendor deliberately: applying it everywhere would let the
-                # literal text disable a rule on any other platform.
-                if self.vendor_type == VendorType.PALO_ALTO and \
-                        '[Disabled]' in str(row.get('Action', '')):
-                    normalized_data['disabled'] = True
 
                 rule = FirewallRule(
                     id=normalized_data['rule_id'],
@@ -281,7 +243,6 @@ class MultiVendorCSVParser:
                     disabled=normalized_data.get('disabled', False),
                     rule_usage=normalized_data.get('rule_usage', ''),
                     modified=normalized_data.get('modified', ''),
-                    logging=normalized_data.get('logging', ''),
                     raw_data=row,
                     vendor_type=self.vendor_type
                 )

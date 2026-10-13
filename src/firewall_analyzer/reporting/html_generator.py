@@ -1,22 +1,8 @@
 import json
 from datetime import datetime
-from functools import lru_cache
-from importlib import resources
 from typing import Dict, Any, List
 
 from ..core.models import SecurityFinding, FirewallRule, RiskLevel
-
-MALICIOUS_IP_LISTS = [
-    "panw-bulletproof-ip-list",
-    "panw-highrisk-ip-list",
-    "panw-known-ip-list",
-    "panw-torexit-ip-list",
-]
-
-@lru_cache(maxsize=None)
-def _read_asset(filename: str) -> str:
-    """Read a bundled report asset (CSS/JS) from firewall_analyzer.reporting.assets."""
-    return resources.files(__package__).joinpath("assets", filename).read_text(encoding="utf-8")
 
 
 class EnhancedHTMLReportGenerator:
@@ -55,7 +41,6 @@ class EnhancedHTMLReportGenerator:
 
     def _generate_enhanced_html(self, results: Dict[str, Any]) -> str:
         """Generate the complete enhanced HTML report"""
-        self._malicious_verdict, self._malicious_critical, self._malicious_deny = self._evaluate_malicious_ip(results)
         summary = results['summary']
         stats = results['statistics']
         zone_summary = results.get('zone_summary', {})
@@ -91,21 +76,16 @@ class EnhancedHTMLReportGenerator:
 
         {self._generate_executive_summary(summary, stats)}
         {self._generate_filtered_rules_notice(stats)}
-        {self._generate_remote_management_section(results)}
-        {self._generate_logging_audit_section(results)}
         {self._generate_zone_based_analysis(zone_summary, results)}
-        {self._generate_external_communications_section(results)}
         {self._generate_risk_distribution_charts(stats)}
-        {self._generate_deny_any_any_section(results)}
         {self._generate_critical_findings(results)}
         {self._generate_recommendations(summary['recommendations'])}
         {self._generate_detailed_statistics(stats)}
         {self._generate_scoring_methodology()}
         {self._generate_zone_traffic_matrix(zone_summary)}
+        {self._generate_grouped_findings_by_rule(grouped_findings, findings_summary) if self.group_by_name else ''}
         {self._generate_high_risk_rules_table(results['high_risk_rules'])}
         {self._generate_complete_findings_table(results['findings'])}
-        {self._generate_security_profile_table(results['findings'])}
-        {self._generate_expired_rules_table(results['findings'])}
         {self._generate_disabled_rules_table(disabled_rules)}
         {self._generate_deny_rules_table(deny_rules)}
         {self._generate_full_rule_details_section(results.get('rules', []))}
@@ -113,36 +93,785 @@ class EnhancedHTMLReportGenerator:
     </div>
 
     <script>
-        {self._get_enhanced_javascript(stats)}
+        {self._get_enhanced_javascript(stats, zone_summary)}
     </script>
 </body>
 </html>"""
         return html
 
     def _get_css_styles(self) -> str:
-        """Return the report stylesheet, prefixed with the palette as CSS variables."""
-        variables = "\n".join(
-            f"    --{name.replace('_', '-')}: {value};"
-            for name, value in self.colors.items()
-        )
-        return f":root {{\n{variables}\n}}\n\n{_read_asset('report.css')}"
+        """Get CSS styles with zone and detailed rule styling"""
+        return f"""
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, {self.colors['very_light_grey']} 0%, {self.colors['light_grey']} 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: {self.colors['dark_grey']};
+            line-height: 1.6;
+        }}
+
+        .container {{
+            max-width: 1900px;
+            margin: 0 auto;
+            background: {self.colors['white']};
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }}
+
+        header {{
+            background: linear-gradient(135deg, {self.colors['signature_orange']} 0%, #D57800 100%);
+            color: {self.colors['white']};
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }}
+
+        header h1 {{
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }}
+
+        .report-meta {{
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 1em;
+            opacity: 0.95;
+            font-weight: 500;
+            flex-wrap: wrap;
+        }}
+
+        .section {{
+            padding: 40px;
+            border-bottom: 2px solid {self.colors['light_grey']};
+        }}
+
+        .section:last-child {{
+            border-bottom: none;
+        }}
+
+        h2 {{
+            color: {self.colors['dark_grey']};
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid {self.colors['signature_orange']};
+            padding-bottom: 12px;
+        }}
+
+        h3 {{
+            color: {self.colors['dark_grey']};
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }}
+
+        h4 {{
+            color: {self.colors['medium_grey']};
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }}
+
+        .health-badge {{
+            display: inline-block;
+            padding: 18px 35px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: {self.colors['white']};
+            font-size: 1.4em;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }}
+
+        .health-critical {{
+            background: linear-gradient(135deg, {self.colors['risk_critical']} 0%, #8B0000 100%);
+        }}
+
+        .health-poor {{
+            background: linear-gradient(135deg, {self.colors['risk_high']} 0%, #BF3900 100%);
+        }}
+
+        .health-fair {{
+            background: linear-gradient(135deg, {self.colors['risk_medium']} 0%, #C17E00 100%);
+        }}
+
+        .health-good {{
+            background: linear-gradient(135deg, {self.colors['risk_low']} 0%, #1B5E20 100%);
+        }}
+
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }}
+
+        .stat-card {{
+            background: linear-gradient(135deg, {self.colors['white']} 0%, {self.colors['very_light_grey']} 100%);
+            padding: 28px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid {self.colors['light_grey']};
+            position: relative;
+            overflow: hidden;
+        }}
+
+        .stat-card::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: {self.colors['signature_orange']};
+        }}
+
+        .stat-card:hover {{
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(235, 140, 0, 0.25);
+            border-color: {self.colors['signature_orange']};
+        }}
+
+        .stat-number {{
+            font-size: 2.8em;
+            font-weight: 700;
+            color: {self.colors['signature_orange']};
+            margin-bottom: 8px;
+        }}
+
+        .stat-label {{
+            color: {self.colors['medium_grey']};
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 600;
+        }}
+
+        .chart-container {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 35px;
+            margin-top: 35px;
+        }}
+
+        .chart-box {{
+            background: {self.colors['white']};
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid {self.colors['light_grey']};
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }}
+
+        .recommendations {{
+            background: linear-gradient(135deg, {self.colors['very_light_grey']} 0%, {self.colors['white']} 100%);
+            border-left: 5px solid {self.colors['signature_orange']};
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }}
+
+        .recommendation-item {{
+            padding: 22px;
+            margin: 18px 0;
+            background: {self.colors['white']};
+            border-radius: 10px;
+            display: flex;
+            align-items: start;
+            gap: 18px;
+            border: 2px solid {self.colors['light_grey']};
+            transition: all 0.3s ease;
+        }}
+
+        .recommendation-item:hover {{
+            box-shadow: 0 6px 18px rgba(235, 140, 0, 0.2);
+            border-color: {self.colors['signature_orange']};
+            transform: translateX(5px);
+        }}
+
+        .priority-badge {{
+            background: {self.colors['signature_orange']};
+            color: {self.colors['white']};
+            padding: 10px;
+            border-radius: 50%;
+            font-weight: 700;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            font-size: 1.1em;
+        }}
+
+        .risk-badge {{
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: {self.colors['white']};
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }}
+
+        .risk-critical {{
+            background: {self.colors['risk_critical']};
+            box-shadow: 0 2px 4px rgba(183, 28, 28, 0.3);
+        }}
+
+        .risk-high {{
+            background: {self.colors['risk_high']};
+            box-shadow: 0 2px 4px rgba(230, 81, 0, 0.3);
+        }}
+
+        .risk-medium {{
+            background: {self.colors['risk_medium']};
+            color: {self.colors['white']};
+            box-shadow: 0 2px 4px rgba(249, 168, 37, 0.3);
+        }}
+
+        .risk-low {{
+            background: {self.colors['risk_low']};
+            box-shadow: 0 2px 4px rgba(46, 125, 50, 0.3);
+        }}
+
+        .risk-info {{
+            background: {self.colors['risk_info']};
+            box-shadow: 0 2px 4px rgba(2, 119, 189, 0.3);
+        }}
+
+        table {{
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 10px;
+        }}
+
+        table thead {{
+            background: {self.colors['dark_grey']};
+            color: {self.colors['white']};
+        }}
+
+        table thead th {{
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.8px;
+            border: none;
+        }}
+
+        table tbody td {{
+            padding: 14px 16px;
+            border-bottom: 1px solid {self.colors['light_grey']};
+            color: {self.colors['dark_grey']};
+            font-size: 0.95em;
+        }}
+
+        table tbody tr:nth-child(even) {{
+            background: {self.colors['very_light_grey']};
+        }}
+
+        table tbody tr:hover {{
+            background: rgba(235, 140, 0, 0.08);
+        }}
+
+        .zone-pair-card {{
+            background: linear-gradient(135deg, {self.colors['white']} 0%, {self.colors['very_light_grey']} 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid {self.colors['light_grey']};
+            transition: all 0.3s ease;
+        }}
+
+        .zone-pair-card:hover {{
+            box-shadow: 0 8px 20px rgba(235, 140, 0, 0.2);
+            border-color: {self.colors['signature_orange']};
+        }}
+
+        .zone-pairs-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }}
+
+        .zone-stats {{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }}
+
+        .zone-stat-badge {{
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: {self.colors['white']};
+        }}
+
+        .zone-stat-badge.allow {{
+            background: {self.colors['risk_low']};
+        }}
+
+        .zone-stat-badge.deny {{
+            background: {self.colors['risk_critical']};
+        }}
+
+        .zone-stat-badge.total {{
+            background: {self.colors['medium_grey']};
+        }}
+
+        .zone-matrix {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 10px;
+        }}
+
+        .zone-matrix th {{
+            background: {self.colors['dark_grey']};
+            color: {self.colors['white']};
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }}
+
+        .zone-matrix td {{
+            padding: 12px;
+            text-align: center;
+            border: 1px solid {self.colors['light_grey']};
+        }}
+
+        .matrix-cell.high {{
+            background: rgba(235, 140, 0, 0.3);
+            font-weight: 600;
+            color: {self.colors['signature_orange']};
+        }}
+
+        .matrix-cell.medium {{
+            background: rgba(249, 168, 37, 0.2);
+        }}
+
+        .matrix-cell.low {{
+            background: {self.colors['very_light_grey']};
+        }}
+
+        .action-badge {{
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: {self.colors['white']};
+            font-size: 0.85em;
+        }}
+
+        .action-badge.allow {{
+            background: {self.colors['risk_low']};
+        }}
+
+        .action-badge.deny {{
+            background: {self.colors['risk_critical']};
+        }}
+
+        .detail-button {{
+            background: {self.colors['signature_orange']};
+            color: {self.colors['white']};
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.2s ease;
+        }}
+
+        .detail-button:hover {{
+            background: #D57800;
+            box-shadow: 0 3px 8px rgba(235, 140, 0, 0.3);
+        }}
+
+        .address-tag {{
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin: 2px;
+        }}
+
+        .address-tag.any {{
+            background: {self.colors['risk_high']};
+            color: {self.colors['white']};
+        }}
+
+        .address-tag.subnet {{
+            background: {self.colors['risk_medium']};
+            color: {self.colors['white']};
+        }}
+
+        .address-tag.ip {{
+            background: {self.colors['risk_low']};
+            color: {self.colors['white']};
+        }}
+
+        .service-tag {{
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            background: {self.colors['signature_orange']};
+            color: {self.colors['white']};
+            margin: 2px;
+        }}
+
+        .service-tag.any {{
+            background: {self.colors['risk_high']};
+        }}
+
+        .search-box {{
+            margin: 20px 0;
+            padding: 15px;
+            background: {self.colors['very_light_grey']};
+            border-radius: 8px;
+        }}
+
+        .search-input {{
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: 2px solid {self.colors['light_grey']};
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+        }}
+
+        .search-input:focus {{
+            border-color: {self.colors['signature_orange']};
+            box-shadow: 0 0 0 3px rgba(235, 140, 0, 0.1);
+        }}
+
+        .formula {{
+            background: {self.colors['dark_grey']};
+            color: {self.colors['white']};
+            padding: 18px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 18px 0;
+            overflow-x: auto;
+            font-size: 1em;
+            line-height: 1.8;
+        }}
+
+        .methodology-box {{
+            background: linear-gradient(135deg, {self.colors['very_light_grey']} 0%, {self.colors['white']} 100%);
+            border: 2px solid {self.colors['light_grey']};
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px 0;
+        }}
+
+        .score-component {{
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid {self.colors['light_grey']};
+        }}
+
+        .score-component:last-child {{
+            border-bottom: none;
+        }}
+
+        .score-value {{
+            color: {self.colors['signature_orange']};
+            font-weight: 700;
+            font-size: 1.05em;
+        }}
+
+        .critical-alert {{
+            background: linear-gradient(135deg, #FFEBEE 0%, {self.colors['white']} 100%);
+            border: 3px solid {self.colors['risk_critical']};
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+        }}
+
+        .critical-alert h3 {{
+            color: {self.colors['risk_critical']};
+            margin-bottom: 12px;
+            font-size: 1.5em;
+        }}
+
+        .grouped-findings-card {{
+            background: linear-gradient(135deg, {self.colors['very_light_grey']} 0%, {self.colors['white']} 100%);
+            border: 2px solid {self.colors['light_grey']};
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }}
+
+        .grouped-findings-card:hover {{
+            box-shadow: 0 6px 15px rgba(235, 140, 0, 0.15);
+            border-color: {self.colors['signature_orange']};
+        }}
+
+        .grouped-findings-card.critical {{
+            border-left: 5px solid {self.colors['risk_critical']};
+        }}
+
+        .grouped-findings-card.high {{
+            border-left: 5px solid {self.colors['risk_high']};
+        }}
+
+        .grouped-findings-card.medium {{
+            border-left: 5px solid {self.colors['risk_medium']};
+        }}
+
+        .grouped-findings-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid {self.colors['light_grey']};
+        }}
+
+        .grouped-findings-header h4 {{
+            margin: 0;
+            flex-grow: 1;
+        }}
+
+        .finding-summary-badge {{
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: {self.colors['signature_orange']};
+            color: {self.colors['white']};
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }}
+
+        .rule-detail-section {{
+            background: {self.colors['very_light_grey']};
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }}
+
+        .rule-detail-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid {self.colors['light_grey']};
+            cursor: pointer;
+        }}
+
+        .rule-detail-header:hover {{
+            background: {self.colors['light_grey']};
+            margin: -10px -10px 25px -10px;
+            padding: 10px;
+            border-radius: 8px;
+        }}
+
+        .rule-detail-body {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }}
+
+        .detail-group {{
+            background: {self.colors['white']};
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid {self.colors['light_grey']};
+        }}
+
+        .detail-group h5 {{
+            color: {self.colors['dark_grey']};
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid {self.colors['signature_orange']};
+            padding-bottom: 8px;
+        }}
+
+        .detail-item {{
+            padding: 8px 0;
+            border-bottom: 1px solid {self.colors['light_grey']};
+        }}
+
+        .detail-item:last-child {{
+            border-bottom: none;
+        }}
+
+        .detail-label {{
+            font-weight: 600;
+            color: {self.colors['dark_grey']};
+            font-size: 0.9em;
+        }}
+
+        .detail-value {{
+            color: {self.colors['medium_grey']};
+            font-size: 0.95em;
+            margin-top: 4px;
+            word-break: break-all;
+        }}
+
+        .expanded {{
+            display: block !important;
+        }}
+
+        .collapsed {{
+            display: none !important;
+        }}
+
+        footer {{
+            background: {self.colors['dark_grey']};
+            color: {self.colors['white']};
+            text-align: center;
+            padding: 35px;
+            font-size: 0.95em;
+        }}
+
+                .dataTables_wrapper {{
+            margin-top: 20px;
+            background: {self.colors['white']};
+        }}
+
+        .dataTables_length {{
+            margin-bottom: 15px;
+        }}
+
+        .dataTables_filter {{
+            margin-bottom: 15px;
+        }}
+
+        .dataTables_filter input {{
+            border: 2px solid {self.colors['light_grey']};
+            border-radius: 6px;
+            padding: 8px 12px;
+            width: 300px;
+            font-size: 0.9em;
+        }}
+
+        .dataTables_filter label {{
+            font-weight: 600;
+            color: {self.colors['dark_grey']};
+        }}
+
+        .dataTables_info {{
+            color: {self.colors['medium_grey']};
+            font-size: 0.9em;
+            margin-top: 10px;
+        }}
+
+        .dataTables_paginate {{
+            margin-top: 15px;
+            text-align: right;
+        }}
+
+        .dataTables_paginate .paginate_button {{
+            padding: 5px 10px;
+            margin: 0 3px;
+            border-radius: 4px;
+            background: {self.colors['light_grey']};
+            color: {self.colors['dark_grey']};
+            cursor: pointer;
+            border: 1px solid {self.colors['light_grey']};
+            font-weight: 600;
+        }}
+
+        .dataTables_paginate .paginate_button:hover {{
+            background: {self.colors['signature_orange']};
+            color: {self.colors['white']};
+            border-color: {self.colors['signature_orange']};
+        }}
+
+        .dataTables_paginate .paginate_button.current {{
+            background: {self.colors['signature_orange']};
+            color: {self.colors['white']};
+            border-color: {self.colors['signature_orange']};
+        }}
+
+        .dataTables_paginate .paginate_button.disabled {{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }}
+
+        .findings-datatable {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
+
+        .findings-datatable thead th {{
+            background: {self.colors['dark_grey']};
+            color: {self.colors['white']};
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border: none;
+        }}
+
+        .findings-datatable tbody td {{
+            padding: 12px;
+            border-bottom: 1px solid {self.colors['light_grey']};
+        }}
+
+        .findings-datatable tbody tr {{
+            transition: background-color 0.2s ease;
+        }}
+
+        .findings-datatable tbody tr:nth-child(even) {{
+            background: {self.colors['very_light_grey']};
+        }}
+
+        .findings-datatable tbody tr:hover {{
+            background: rgba(235, 140, 0, 0.08);
+        }}
+
+        @media (max-width: 768px) {{
+            .stats-grid {{ grid-template-columns: 1fr; }}
+            .chart-container {{ grid-template-columns: 1fr; }}
+            .report-meta {{ flex-direction: column; gap: 10px; }}
+            header h1 {{ font-size: 1.8em; }}
+            .rule-detail-body {{ grid-template-columns: 1fr; }}
+        }}
+        """
 
     def _generate_executive_summary(self, summary: Dict, stats: Dict) -> str:
         """Generate executive summary section"""
-        health_class = f"health-{summary['overall_health'].lower().replace(' ', '-')}"
-        rating = summary.get('posture') or {}
-        score_line = (f"<div style=\"margin-top:10px;color:var(--text-muted, #6F6F6F)\">"
-                      f"Posture score {rating['score']}/100 · rated on the share of assessed rules "
-                      f"at each severity</div>") if rating.get('score') is not None else ""
+        health_class = f"health-{summary['overall_health'].lower()}"
 
         return f"""
         <div class="section">
             <h2>📊 Executive Summary</h2>
             <div style="text-align: center; margin: 35px 0;">
                 <div class="health-badge {health_class}">
-                    Overall Risk Rating: {summary['overall_health']}
+                    Overall Security Health: {summary['overall_health']}
                 </div>
-                {score_line}
             </div>
 
             <div class="stats-grid">
@@ -164,62 +893,9 @@ class EnhancedHTMLReportGenerator:
                 </div>
             </div>
 
-                    {self._generate_critical_alert(summary) if summary['critical_issues'] > 0 else ''}
-            {self._generate_malicious_recommendation_box() if self._malicious_verdict == 'missing' else ''}
+            {self._generate_critical_alert(summary) if summary['critical_issues'] > 0 else ''}
         </div>
         """
-
-    def _generate_deny_any_any_section(self, results):
-        """Dedicated section showing Deny Any Any status per firewall."""
-        deny_findings = [
-            f for f in results['findings']
-            if 'Deny Any Any' in f.description or 'Any Any' in f.description
-        ]
-
-        if not deny_findings:
-            return ""
-
-        rows = ""
-        for f in deny_findings:
-            if 'Compliant' in f.description:
-                color = self.colors['risk_low']
-                status = '✅ COMPLIANT'
-            else:
-                color = self.colors['risk_high']
-                status = '⚠️ ACTION REQUIRED'
-
-            rows += f"""
-            <tr>
-                <td><strong>{f.rule_name}</strong></td>
-                <td style="color: {color}; font-weight: 700;">{status}</td>
-                <td>{f.description}</td>
-                <td>{f.recommendation}</td>
-            </tr>
-            """
-
-        return f"""
-        <div class="section" style="border-left: 6px solid {self.colors['signature_orange']};">
-            <h2>🛡️ Deny Any Any Cleanup Rule Check (Per Firewall)</h2>
-            <p style="margin-bottom: 15px; color: {self.colors['medium_grey']};">
-                Verifies that each firewall ends with a Deny Any Any cleanup rule.
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Firewall / Rule</th>
-                        <th>Status</th>
-                        <th>Details</th>
-                        <th>Recommendation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-            </table>
-        </div>
-        """
-
-
 
     def _generate_critical_alert(self, summary: Dict) -> str:
         """Generate critical issues alert"""
@@ -266,87 +942,6 @@ class EnhancedHTMLReportGenerator:
         </div>
         """
 
-    def _generate_remote_management_section(self, results):
-        """List ALL remote-management protocols and how many rules allow each."""
-        from ..core.models import RuleIssueType
-
-        # Canonical protocols we display (no duplicates)
-        ALL_PROTOCOLS = [
-            "SSH", "Telnet", "RDP", "VNC", "WinRM (HTTP)", "WinRM (HTTPS)",
-            "RSH", "rlogin", "rexec", "XDMCP", "X11", "Apple Remote Desktop",
-            "TeamViewer", "AnyDesk", "LogMeIn", "GoToMyPC", "Splashtop",
-            "BeyondTrust", "pcAnywhere", "Radmin",
-        ]
-
-        # Map any alias/case the checker might emit -> canonical display name
-        ALIAS_TO_CANONICAL = {
-            "ssh": "SSH", "telnet": "Telnet",
-            "rdp": "RDP", "ms-rdp": "RDP", "ms.rdp": "RDP",
-            "vnc": "VNC", "vnc-base": "VNC",
-            "winrm": "WinRM (HTTP)", "winrm (http)": "WinRM (HTTP)",
-            "winrm (https)": "WinRM (HTTPS)",
-            "rsh": "RSH", "rlogin": "rlogin", "rexec": "rexec",
-            "xdmcp": "XDMCP", "x11": "X11",
-            "apple remote desktop": "Apple Remote Desktop",
-            "teamviewer": "TeamViewer", "anydesk": "AnyDesk", "logmein": "LogMeIn",
-            "gotomypc": "GoToMyPC", "splashtop": "Splashtop",
-            "beyondtrust": "BeyondTrust", "pcanywhere": "pcAnywhere", "radmin": "Radmin",
-        }
-
-        rm = [f for f in results['findings']
-              if f.issue_type == RuleIssueType.MANAGEMENT_ACCESS]
-
-        # Count rules per protocol -- normalize every value to its canonical name
-        counts = {}
-        for f in rm:
-            for p in (f.details or {}).get("protocols", []):
-                canonical = ALIAS_TO_CANONICAL.get(str(p).strip().lower(), str(p))
-                counts[canonical] = counts.get(canonical, 0) + 1
-
-        found_rows = ""
-        notfound_rows = ""
-        found_total = 0
-        for proto in ALL_PROTOCOLS:
-            n = counts.get(proto, 0)
-            if n > 0:
-                found_total += 1
-                found_rows += f"""
-                <tr>
-                    <td style="font-weight:600;">{proto}</td>
-                    <td><span class="risk-badge risk-critical">FOUND</span></td>
-                    <td><strong style="color:{self.colors['signature_orange']};">{n}</strong></td>
-                </tr>"""
-            else:
-                notfound_rows += f"""
-                <tr style="opacity:0.6;">
-                    <td>{proto}</td>
-                    <td><span class="risk-badge risk-low">NONE</span></td>
-                    <td>0</td>
-                </tr>"""
-
-        return f"""
-        <div class="section">
-            <h2>🖥️ Remote Management Exposure</h2>
-            <p style="margin-bottom:20px; color:{self.colors['medium_grey']};">
-                List of remote-management protocols and how many rules allow each.
-                <strong>{found_total}</strong> protocol(s) found across <strong>{len(rm)}</strong> rule(s).
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Remote Management Protocol</th>
-                        <th>Status</th>
-                        <th>Rules Allowing It</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {found_rows}
-                    {notfound_rows}
-                </tbody>
-            </table>
-        </div>
-        """
-
     def _generate_zone_based_analysis(self, zone_summary: Dict, results: Dict) -> str:
         """Generate zone-based traffic analysis section"""
         if not zone_summary:
@@ -375,243 +970,6 @@ class EnhancedHTMLReportGenerator:
         </div>
         """
 
-    def _generate_external_communications_section(self, results):
-        rules = results.get("all_rules") or results.get("rules", [])
-
-        rules_data = []
-
-        for rule in rules:
-            rules_data.append({
-                "id": str(rule.id),
-                "name": str(rule.name),
-                "source_zones": list(rule.source_zones),
-                "destination_zones": list(rule.dest_zones),
-                "source_addresses": list(rule.source_addresses),
-                "destination_addresses": list(rule.dest_addresses),
-                "applications": list(rule.applications),
-                "services": list(rule.services),
-                "action": str(rule.action),
-                "disabled": bool(rule.disabled)
-            })
-
-
-        rules_json = json.dumps(rules_data)
-
-        return f"""
-        <div class="section">
-            <h2>🌍 External Communications Discovery</h2>
-
-            <p>
-                Enter external zones to identify enabled Allow rules where the
-                source zone or destination zone is external.
-                Rules using Any are shown as potential external communication.
-            </p>
-
-            <div style="margin:20px 0;">
-                <input
-                    type="text"
-                    id="externalZoneInput"
-                    placeholder="Enter external zone"
-                    style="
-                        padding:12px;
-                        width:320px;
-                        border:2px solid #E8E8E8;
-                        border-radius:6px;
-                    "
-                >
-
-                <button
-                    type="button"
-                    onclick="addExternalZone()"
-                    style="
-                        padding:12px 18px;
-                        background:#EB8C00;
-                        color:white;
-                        border:none;
-                        border-radius:6px;
-                        cursor:pointer;
-                        font-weight:bold;
-                    "
-                >
-                    + Add
-                </button>
-
-                <button
-                    type="button"
-                    onclick="runExternalDiscovery()"
-                    style="
-                        padding:12px 18px;
-                        background:#2C2C2C;
-                        color:white;
-                        border:none;
-                        border-radius:6px;
-                        cursor:pointer;
-                        font-weight:bold;
-                    "
-                >
-                    Analyze
-                </button>
-
-                <button
-                    type="button"
-                    onclick="analyzeExternalPorts()"
-                >
-                    Find All Ports
-                </button>
-
-                <button
-                    type="button"
-                    onclick="findInsecurePorts()"
-                >
-                    Show Insecure Ports
-                </button>
-
-                
-            </div>
-
-            <div id="externalZonesList" style="margin:15px 0;"></div>
-            <div id="externalPortsTable"></div>
-
-            <div id="insecurePortsTable"></div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalAllowRulesCount">
-                        0
-                    </div>
-                    <div class="stat-label">
-                        Active Allow Rules
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-number" id="confirmedExternalCount">
-                        0
-                    </div>
-                    <div class="stat-label">
-                        Confirmed External
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-number" id="potentialExternalCount">
-                        0
-                    </div>
-                    <div class="stat-label">
-                        Potential External (Any)
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-number" id="internalRulesCount">
-                        0
-                    </div>
-                    <div class="stat-label">
-                        Internal Rules
-                    </div>
-                </div>
-            </div>
-
-            <div
-                id="externalDiscoveryMessage"
-                style="margin-top:20px;"
-            ></div>
-
-            <button
-                type="button"
-                id="downloadExternalCsvButton"
-                onclick="downloadExternalCommunicationsCSV()"
-                style="
-                    display:none;
-                    margin-top:20px;
-                    padding:12px 18px;
-                    background:#2E7D32;
-                    color:white;
-                    border:none;
-                    border-radius:6px;
-                    cursor:pointer;
-                    font-weight:bold;
-                "
-            >
-                Download External Communications CSV
-            </button>
-
-            <div
-                id="externalResultsTable"
-                style="margin-top:20px; overflow-x:auto;"
-            ></div>
-        </div>
-
-        <script>
-            window.externalDiscoveryRules = {rules_json};
-        </script>
-        """
-
-    def _generate_logging_audit_section(self, results):
-        """Logging audit: enabled vs not, and lists of not-logged Allow/Deny rules."""
-        from ..core.models import RuleIssueType
-        from ..analysis.logging_audit_checker import _logging_enabled
-
-        all_rules = results.get('all_rules') or results.get('rules', [])
-
-        checked = [r for r in all_rules if _logging_enabled(r) is not None]
-        if not checked:
-            return ""
-
-        enabled_count = sum(1 for r in checked if _logging_enabled(r))
-        not_enabled = [r for r in checked if not _logging_enabled(r)]
-        no_log_allow = [r for r in not_enabled if r.action.lower() == "allow"]
-        no_log_deny = [r for r in not_enabled if r.action.lower() == "deny"]
-
-        def rows(rule_list, badge):
-            html = ""
-            for r in rule_list:
-                html += f"""
-                <tr>
-                    <td>{r.id}</td>
-                    <td style="font-weight:600;">{r.name}</td>
-                    <td><span class="action-badge {r.action.lower()}">{r.action.upper()}</span></td>
-                    <td><span class="risk-badge {badge}">NO LOGGING</span></td>
-                </tr>"""
-            return html or '<tr><td colspan="4" style="color:#888;">None</td></tr>'
-
-        return f"""
-        <div class="section">
-            <h2>📝 Logging Configuration Audit</h2>
-            <p style="margin-bottom:20px; color:{self.colors['medium_grey']};">
-                Checks whether rules have logging enabled for auditability.
-            </p>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">{enabled_count}</div>
-                    <div class="stat-label">Logging Enabled</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">{len(not_enabled)}</div>
-                    <div class="stat-label">No Logging</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">{len(no_log_allow)}</div>
-                    <div class="stat-label">No Log + Allow (Critical)</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">{len(no_log_deny)}</div>
-                    <div class="stat-label">No Log + Deny (High)</div>
-                </div>
-            </div>
-            <h3 style="margin-top:30px;">🔴 Allow Rules Without Logging (Critical)</h3>
-            <table>
-                <thead><tr><th>ID</th><th>Rule Name</th><th>Action</th><th>Status</th></tr></thead>
-                <tbody>{rows(no_log_allow, "risk-critical")}</tbody>
-            </table>
-            <h3 style="margin-top:30px;">🟠 Deny Rules Without Logging (High)</h3>
-            <table>
-                <thead><tr><th>ID</th><th>Rule Name</th><th>Action</th><th>Status</th></tr></thead>
-                <tbody>{rows(no_log_deny, "risk-high")}</tbody>
-            </table>
-        </div>
-        """
-
     def _generate_zone_traffic_matrix(self, zone_summary: Dict) -> str:
         """Generate zone traffic matrix visualization"""
         if not zone_summary or len(zone_summary) < 2:
@@ -635,7 +993,7 @@ class EnhancedHTMLReportGenerator:
                 else:
                     matrix_data[zone][zone2] = 0
 
-        matrix_html = "<table class='zone-matrix'><thead><tr><th>From \\ To</th>"
+        matrix_html = "<table class='zone-matrix'><thead><tr><th>From \ To</th>"
         for zone in zones:
             matrix_html += f"<th>{zone}</th>"
         matrix_html += "</tr></thead><tbody>"
@@ -673,70 +1031,6 @@ class EnhancedHTMLReportGenerator:
                     <canvas id="typeChart"></canvas>
                 </div>
             </div>
-        </div>
-        """
-
-    def _evaluate_malicious_ip(self, results):
-        rules = results.get('all_rules') or results.get('rules', [])
-        critical_rules, deny_rules = [], []
-        for rule in rules:
-            refs = []
-            for v in list(rule.source_addresses) + list(rule.dest_addresses):
-                vl = str(v).lower()
-                for mal in MALICIOUS_IP_LISTS:
-                    if mal.lower() in vl:
-                        refs.append(mal)
-            refs = sorted(set(refs))
-            if not refs:
-                continue
-            if rule.action.lower() == 'allow':
-                critical_rules.append((rule, refs))
-            elif rule.action.lower() == 'deny':
-                deny_rules.append((rule, refs))
-        if critical_rules:
-            verdict = 'critical'
-        elif deny_rules:
-            verdict = 'approved'
-        else:
-            verdict = 'missing'
-        return verdict, critical_rules, deny_rules
-
-    def _generate_malicious_recommendation_box(self, results=None):
-        # Detect vendor from the rules
-        rules = (results or {}).get('all_rules') or (results or {}).get('rules', [])
-        vendor = rules[0].vendor_type.value if rules else "generic"
-
-        # Vendor-specific malicious IP references
-        PALO_ALTO_LISTS = [
-            "panw-bulletproof-ip-list", "panw-highrisk-ip-list",
-            "panw-known-ip-list", "panw-torexit-ip-list",
-        ]
-        FORTINET_LISTS = [
-            "Botnet-C&C.Server", "Malicious-Malicious.Server", "Phishing-Phishing.Server",
-            "Spam-Spamming.Server", "Proxy-Proxy.Server", "Tor-Exit.Node",
-            "Tor-Relay.Node", "Tor-Tor.Node", "VPN-Anonymous.VPN",
-            "Blockchain-Crypto.Mining.Pool",
-        ]
-
-        if vendor == "fortinet":
-            lists = FORTINET_LISTS
-            label = "FortiGate FortiGuard IP Reputation (ISDB) objects"
-        elif vendor == "palo_alto":
-            lists = PALO_ALTO_LISTS
-            label = "Palo Alto built-in malicious IP lists"
-        else:
-            lists = PALO_ALTO_LISTS + FORTINET_LISTS
-            label = "known malicious IP lists / threat feeds"
-
-        items = "".join(f"<li>{m}</li>" for m in lists)
-        return f"""
-        <div class="critical-alert" style="border-color: {self.colors['warning']};
-             background: linear-gradient(135deg, #FFF8E1 0%, {self.colors['white']} 100%);">
-            <h3 style="color: {self.colors['warning']};">⚠️ Recommended: Add Malicious IP Blocking</h3>
-            <p style="font-size: 1.1em;">No rule was found that blocks the {label}.</p>
-            <p>It is <strong>recommended</strong> to add a <strong>DENY</strong> rule
-               (source + destination) referencing:</p>
-            <ul style="margin-left: 25px; margin-top: 10px; line-height: 1.8;">{items}</ul>
         </div>
         """
 
@@ -895,7 +1189,67 @@ class EnhancedHTMLReportGenerator:
         </div>
         """
 
-    
+    def _generate_grouped_findings_by_rule(self, grouped_findings: Dict,
+                                         findings_summary: Dict) -> str:
+        """Generate findings grouped by rule name"""
+        if not grouped_findings:
+            return ""
+
+        grouped_html = ""
+        for rule_name, findings in sorted(grouped_findings.items(),
+                                         key=lambda x: sum(f.score for f in x[1]), reverse=True):
+            summary = findings_summary.get(rule_name, {})
+            total_score = summary.get('total_score', 0)
+            total_findings = summary.get('total_findings', 0)
+            risk_levels = summary.get('risk_levels', {})
+
+            # Determine risk class
+            risk_class = 'low'
+            if risk_levels.get('critical', 0) > 0:
+                risk_class = 'critical'
+            elif risk_levels.get('high', 0) > 0:
+                risk_class = 'high'
+            elif risk_levels.get('medium', 0) > 0:
+                risk_class = 'medium'
+
+            findings_detail_html = "<ul style='margin-left: 20px; margin-top: 10px;'>"
+            for finding in findings[:5]:  # Show first 5 findings per rule
+                findings_detail_html += f"<li><span class='risk-badge risk-{finding.risk_level.value}'>{finding.risk_level.value.upper()}</span> {finding.issue_type.value.replace('_', ' ').title()}: {finding.score} points</li>"
+
+            if len(findings) > 5:
+                findings_detail_html += f"<li>... and {len(findings) - 5} more findings</li>"
+
+            findings_detail_html += "</ul>"
+
+            grouped_html += f"""
+            <div class="grouped-findings-card {risk_class}">
+                <div class="grouped-findings-header">
+                    <h4 style="margin: 0;">{rule_name}</h4>
+                    <span class="finding-summary-badge">Score: {total_score}</span>
+                    <span class="finding-summary-badge">Issues: {total_findings}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                        <div><strong>Critical:</strong> {risk_levels.get('critical', 0)}</div>
+                        <div><strong>High:</strong> {risk_levels.get('high', 0)}</div>
+                        <div><strong>Medium:</strong> {risk_levels.get('medium', 0)}</div>
+                        <div><strong>Low:</strong> {risk_levels.get('low', 0)}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Top Findings:</strong>
+                    {findings_detail_html}
+                </div>
+            </div>
+            """
+
+        return f"""
+        <div class="section">
+            <h2>📑 Findings Grouped by Rule Name</h2>
+            <p style="margin-bottom: 20px;">Security findings consolidated and aggregated by rule name for easier review:</p>
+            {grouped_html}
+        </div>
+        """
 
     def _generate_high_risk_rules_table(self, high_risk_rules: List[FirewallRule]) -> str:
         """Generate high risk rules table"""
@@ -1003,143 +1357,155 @@ class EnhancedHTMLReportGenerator:
         html += "</div>"
         return html
 
-    def _get_enhanced_javascript(self, stats: Dict) -> str:
-        """Return the report script, prefixed with the data it reads at render time."""
-        risk_data = stats.get("findings_by_risk", {})
-        type_data = stats.get("findings_by_type", {})
-
-        config = {
-            "colors": self.colors,
-            "riskCounts": {
-                level: risk_data.get(level, 0)
-                for level in ("critical", "high", "medium", "low", "info")
-            },
-            "typeLabels": [key.replace("_", " ").title() for key in type_data],
-            "typeValues": list(type_data.values()),
-        }
-
-        return f"var REPORT_CONFIG = {json.dumps(config)};\n\n{_read_asset('report.js')}"
-
-    def _generate_expired_rules_table(self, findings):
-        """Generate table of expired rules (only from ExpiredRuleAnalyzer)."""
-        expired = [f for f in findings if f.issue_type.value == 'expired']
-
-        if not expired:
-            return ""
-
-        seen = set()
-        unique_expired = []
-        for f in expired:
-            # Only include OUR analyzer's findings (they have 'days_passed')
-            if 'days_passed' not in f.details:
-                continue
-
-            date = f.details.get('expiry_date')
-
-            # Skip if no valid date
-            if not date or str(date).strip() in ('', '-', 'N/A', 'None'):
-                continue
-
-            # Skip duplicates
-            if f.rule_id in seen:
-                continue
-
-            seen.add(f.rule_id)
-            unique_expired.append(f)
-
-        if not unique_expired:
-            return ""
-
-        rows = ""
-        for f in sorted(unique_expired, key=lambda x: x.details.get('days_passed', 0), reverse=True):
-            days = f.details.get('days_passed', 'N/A')
-            date = f.details.get('expiry_date', 'N/A')
-            rows += f"""
-            <tr>
-                <td>{f.rule_id}</td>
-                <td>{f.rule_name}</td>
-                <td>{date}</td>
-                <td>{days}</td>
-                <td>{f.recommendation}</td>
-            </tr>
-            """
+    def _get_enhanced_javascript(self, stats: Dict, zone_summary: Dict) -> str:
+        """Get enhanced JavaScript with zone and detail filtering"""
+        risk_data = stats.get('findings_by_risk', {})
+        type_data = stats.get('findings_by_type', {})
 
         return f"""
-        <div class="section" style="border-left: 6px solid {self.colors['risk_medium']};">
-            <h2>⏰ Expired / Temporary Rules ({len(unique_expired)} Total)</h2>
-            <p style="margin-bottom: 20px; color: {self.colors['medium_grey']};">
-                Time-bound rules whose date has already passed. These should be reviewed, renewed, or removed.
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rule ID</th>
-                        <th>Rule Name</th>
-                        <th>Expired Date</th>
-                        <th>Days Passed</th>
-                        <th>Recommendation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-            </table>
-        </div>
+        // Track all expanded/collapsed states
+        var allRulesExpanded = false;
+
+        function toggleRuleDetails(ruleIdx) {{
+            var detailsDiv = document.getElementById('rule-details-' + ruleIdx);
+            if (detailsDiv.classList.contains('collapsed')) {{
+                detailsDiv.classList.remove('collapsed');
+                detailsDiv.classList.add('expanded');
+            }} else {{
+                detailsDiv.classList.remove('expanded');
+                detailsDiv.classList.add('collapsed');
+            }}
+        }}
+
+        function toggleAllRules() {{
+            // Find all rule detail sections
+            var ruleSections = document.querySelectorAll('[id^="rule-details-"]');
+
+            allRulesExpanded = !allRulesExpanded;
+
+            ruleSections.forEach(function(section) {{
+                if (allRulesExpanded) {{
+                    section.classList.remove('collapsed');
+                    section.classList.add('expanded');
+                }} else {{
+                    section.classList.remove('expanded');
+                    section.classList.add('collapsed');
+                }}
+            }});
+        }}
+
+        // Initialize DataTables after DOM is ready
+        $(document).ready(function() {{
+            // Initialize all findings tables
+            var tables = document.querySelectorAll('table.findings-datatable');
+
+            tables.forEach(function(table) {{
+                // Check if DataTable is not already initialized
+                if (!$.fn.DataTable.isDataTable(table)) {{
+                    $(table).DataTable({{
+                        "paging": true,
+                        "pageLength": 10,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "lengthChange": true,
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "dom": '<"top"lf>rt<"bottom"ip>',
+                        "language": {{
+                            "search": "Filter findings:",
+                            "lengthMenu": "Show _MENU_ entries",
+                            "info": "Showing _START_ to _END_ of _TOTAL_ findings",
+                            "paginate": {{
+                                "previous": "Previous",
+                                "next": "Next"
+                            }}
+                        }},
+                        "columnDefs": [
+                            {{ "width": "10%", "targets": 0 }},
+                            {{ "width": "20%", "targets": 1 }},
+                            {{ "width": "18%", "targets": 2 }},
+                            {{ "width": "30%", "targets": 3 }},
+                            {{ "width": "8%", "targets": 4 }},
+                            {{ "width": "14%", "targets": 5 }}
+                        ],
+                        "order": [[4, 'desc']]  // Sort by Score column descending
+                    }});
+                }}
+            }});
+        }});
+
+        // Risk Distribution Chart
+        var riskCtx = document.getElementById('riskChart');
+        if (riskCtx) {{
+            new Chart(riskCtx.getContext('2d'), {{
+                type: 'doughnut',
+                data: {{
+                    labels: ['Critical', 'High', 'Medium', 'Low', 'Info'],
+                    datasets: [{{
+                        data: [
+                            {risk_data.get('critical', 0)},
+                            {risk_data.get('high', 0)},
+                            {risk_data.get('medium', 0)},
+                            {risk_data.get('low', 0)},
+                            {risk_data.get('info', 0)}
+                        ],
+                        backgroundColor: [
+                            '{self.colors['risk_critical']}',
+                            '{self.colors['risk_high']}',
+                            '{self.colors['risk_medium']}',
+                            '{self.colors['risk_low']}',
+                            '{self.colors['risk_info']}'
+                        ],
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }}]
+                }},
+                options: {{
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {{
+                        legend: {{
+                            position: 'bottom',
+                            labels: {{ padding: 20, font: {{ size: 13, weight: '600' }} }}
+                        }}
+                    }}
+                }}
+            }});
+        }}
+
+        // Type Distribution Chart
+        var typeCtx = document.getElementById('typeChart');
+        if (typeCtx) {{
+            var typeLabels = {json.dumps([k.replace('_', ' ').title() for k in type_data.keys()])};
+            var typeValues = {json.dumps(list(type_data.values()))};
+
+            new Chart(typeCtx.getContext('2d'), {{
+                type: 'bar',
+                data: {{
+                    labels: typeLabels,
+                    datasets: [{{
+                        label: 'Number of Issues',
+                        data: typeValues,
+                        backgroundColor: '{self.colors['signature_orange']}',
+                        borderColor: '{self.colors['dark_grey']}',
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }}]
+                }},
+                options: {{
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {{ legend: {{ display: false }} }},
+                    scales: {{
+                        y: {{ beginAtZero: true, ticks: {{ stepSize: 1 }} }},
+                        x: {{ ticks: {{ maxRotation: 45, minRotation: 45 }} }}
+                    }}
+                }}
+            }});
+        }}
         """
 
-    def _generate_security_profile_table(self, findings):
-        """Generate table of rules WITH security profiles (deduplicated)."""
-        profile_findings = [
-            f for f in findings
-            if 'HASPROFILE' in f.description
-        ]
-
-        if not profile_findings:
-            return ""
-
-        # Deduplicate by rule_id
-        seen = set()
-        unique = []
-        for f in profile_findings:
-            if f.rule_id not in seen:
-                seen.add(f.rule_id)
-                unique.append(f)
-
-        rows = ""
-        for f in unique:
-            profile = f.details.get('security_profile', '')
-            rows += f"""
-            <tr>
-                <td>{f.rule_id}</td>
-                <td>{f.rule_name}</td>
-                <td style="color: {self.colors['risk_low']}; font-weight: 600;">{profile}</td>
-                <td>{f.recommendation}</td>
-            </tr>
-            """
-
-        return f"""
-        <div class="section" style="background: linear-gradient(135deg, #E8F5E9 0%, {self.colors['white']} 100%); border-left: 6px solid {self.colors['risk_low']};">
-            <h2>🛡️ Rules With Security Profiles ({len(unique)} Total)</h2>
-            <p style="margin-bottom: 20px; color: {self.colors['medium_grey']};">
-                ALLOW rules that have security profiles applied (threat inspection enabled). These are correctly protected.
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rule ID</th>
-                        <th>Rule Name</th>
-                        <th>Security Profiles</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-            </table>
-        </div>
-        """
-
-    
     def _generate_disabled_rules_table(self, disabled_rules: List[FirewallRule]) -> str:
         """Generate table of disabled rules"""
         if not disabled_rules:
@@ -1231,7 +1597,6 @@ class EnhancedHTMLReportGenerator:
             </table>
         </div>
         """
-    
 
     def _generate_full_rule_details_section(self, rules: List[FirewallRule]) -> str:
         """Generate comprehensive section with expandable rule details"""

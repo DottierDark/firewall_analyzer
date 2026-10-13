@@ -1,24 +1,15 @@
 from collections import defaultdict
 from typing import Dict, Any, List
 
-from .analysis.logging_audit_checker import LoggingAuditAnalyzer          
-from .analysis.remote_management_checker import RemoteManagementAnalyzer
-from .analysis.malicious_ip_checker import MaliciousIPAnalyzer
 from .analysis.zone_analyzer import ZoneBasedAnalyzer
 from .analysis.overlap_detector import SubnetOverlapDetector
 from .analysis.protocols import InsecureProtocolAnalyzer
 from .analysis.permissions import OverlyPermissiveRuleAnalyzer
 from .analysis.redundancy import RedundancyAnalyzer
 from .analysis.best_practices import BestPracticesAnalyzer
-from .analysis.deny import DenyAnyAnyAnalyzer
-from .analysis.expired import ExpiredRuleAnalyzer
-from .analysis.security_profiles import SecurityProfileAnalyzer
 from .analysis.application_risk import ApplicationRiskAnalyzer
 from .reporting.aggregator import FindingGrouper
 from .core.models import FirewallRule
-from .analysis.external_communications import ExternalCommunicationsAnalyzer
-from .analysis import frameworks as compliance_frameworks
-from .core import posture
 
 
 class EnhancedFirewallRuleAnalyzer:
@@ -26,7 +17,7 @@ class EnhancedFirewallRuleAnalyzer:
 
     def __init__(self, high_risk_threshold: int = 70, medium_risk_threshold: int = 40,
                  zone_config: Dict = None, config_manager=None, analysis_config: Dict = None,
-                 app_id_handler=None, frameworks=None):
+                 app_id_handler=None):
         self.high_risk_threshold = high_risk_threshold
         self.medium_risk_threshold = medium_risk_threshold
         self.zone_config = zone_config or config_manager.DEFAULT_ZONE_CONFIG if config_manager else {}
@@ -35,29 +26,17 @@ class EnhancedFirewallRuleAnalyzer:
             config_manager.load_analysis_config() if config_manager else {})
         self.app_id_handler = app_id_handler
 
-        self.logging_audit_analyzer = LoggingAuditAnalyzer()            
-        self.remote_mgmt_analyzer = RemoteManagementAnalyzer()
-        self.malicious_ip_analyzer = MaliciousIPAnalyzer()
-
         self.zone_analyzer = ZoneBasedAnalyzer(self.zone_config)
         self.subnet_overlap_detector = SubnetOverlapDetector()
 
         self.insecure_protocol_analyzer = InsecureProtocolAnalyzer()
         self.permissive_analyzer = OverlyPermissiveRuleAnalyzer()
         self.redundancy_analyzer = RedundancyAnalyzer()
-        self.deny_any_any_analyzer = DenyAnyAnyAnalyzer()
-        self.expired_analyzer = ExpiredRuleAnalyzer()
-        self.security_profile_analyzer = SecurityProfileAnalyzer()
         self.best_practices_analyzer = BestPracticesAnalyzer()
         self.application_risk_analyzer = ApplicationRiskAnalyzer(
             analysis_config=self.analysis_config,
             app_id_handler=self.app_id_handler
         )
-        self.external_communications_analyzer = ExternalCommunicationsAnalyzer()
-        # Compliance frameworks to assess, by registry key (see
-        # analysis/frameworks.py). ECC alone unless the caller asks for more.
-        self.frameworks = compliance_frameworks.normalize_keys(
-            frameworks or compliance_frameworks.DEFAULT_FRAMEWORKS)
 
 
     def analyze_rules(self, rules: List[FirewallRule]) -> Dict[str, Any]:
@@ -76,9 +55,6 @@ class EnhancedFirewallRuleAnalyzer:
             rule_findings.extend(self.permissive_analyzer.analyze(rule))
             rule_findings.extend(self.best_practices_analyzer.analyze(rule))
             rule_findings.extend(self.application_risk_analyzer.analyze(rule))
-            rule_findings.extend(self.malicious_ip_analyzer.analyze(rule))
-            rule_findings.extend(self.remote_mgmt_analyzer.analyze(rule))
-            rule_findings.extend(self.logging_audit_analyzer.analyze(rule))
 
             rule.risk_score = sum(f.score for f in rule_findings)
             rule.score_breakdown = self._aggregate_score_breakdown(rule_findings)
@@ -98,12 +74,6 @@ class EnhancedFirewallRuleAnalyzer:
 
         subnet_findings = self.subnet_overlap_detector.analyze_rules(filtered_rules)
         all_findings.extend(subnet_findings)
-        deny_findings = self.deny_any_any_analyzer.analyze_ruleset(rules)
-        all_findings.extend(deny_findings)
-        expired_findings = self.expired_analyzer.analyze_ruleset(rules)
-        all_findings.extend(expired_findings)
-        sp_findings = self.security_profile_analyzer.analyze_ruleset(rules)
-        all_findings.extend(sp_findings)
 
         for finding in subnet_findings:
             for rule in filtered_rules:
@@ -112,21 +82,7 @@ class EnhancedFirewallRuleAnalyzer:
                     rule.risk_score += finding.score
                     break
 
-        # Compliance is assessed against every rule in the file, not the
-        # filtered set: "is logging enabled on every rule" is a question about
-        # the configuration as written, including the cleanup rules the risk
-        # analyzers deliberately skip. Each requested framework is assessed
-        # independently; see analysis/frameworks.py for the result contract.
-        assessments, compliance_findings = compliance_frameworks.assess_all(self.frameworks, rules)
-        all_findings.extend(compliance_findings)
-
         zone_summary = self.zone_analyzer.get_zone_summary(filtered_rules)
-        external_results = {
-                "external_rules": [],
-                "potential_external_rules": [],
-                "total_external_rules": 0,
-                "total_potential_external": 0
-            }
 
         stats = self._generate_enhanced_statistics(filtered_rules, all_findings, rules)
 
@@ -143,15 +99,13 @@ class EnhancedFirewallRuleAnalyzer:
             'statistics': stats,
             'high_risk_rules': high_risk_rules,
             'medium_risk_rules': medium_risk_rules,
-            'summary': self._generate_summary(stats, all_findings, filtered_rules),
+            'summary': self._generate_summary(stats, all_findings),
             'zone_summary': zone_summary,
             'disabled_rules': [r for r in rules if r.disabled],
             'deny_rules': [r for r in rules if r.action.lower() == 'deny'],
             'all_rules': rules,
             'grouped_findings': grouped_findings,
-            'findings_summary': findings_summary,
-            'external_communications': external_results,
-            'compliance': {'frameworks': list(assessments), 'assessments': assessments},
+            'findings_summary': findings_summary
         }
 
     def _filter_analysis_rules(self, rules: List[FirewallRule]) -> List[FirewallRule]:
@@ -272,22 +226,21 @@ class EnhancedFirewallRuleAnalyzer:
 
         return stats
 
-    def _generate_summary(self, stats: Dict[str, Any], findings: List,
-                          assessed_rules: List[FirewallRule] = ()) -> Dict[str, Any]:
-        """Generate executive summary.
-
-        The overall rating is Critical / High / Medium / Low - the same scale as
-        a finding - from the posture score over assessed rules (core/posture.py).
-        """
+    def _generate_summary(self, stats: Dict[str, Any], findings: List) -> Dict[str, Any]:
+        """Generate executive summary"""
         critical_findings = [f for f in findings if f.risk_level.value == 'critical']
         high_findings = [f for f in findings if f.risk_level.value == 'high']
 
-        worst = posture.worst_by_rule(findings, [r.id for r in assessed_rules])
-        rating = posture.rate(posture.count_worst(worst), self.analysis_config)
+        overall_health = "Good"
+        if len(critical_findings) > 0:
+            overall_health = "Critical"
+        elif len(high_findings) > 5:
+            overall_health = "Poor"
+        elif len(high_findings) > 0:
+            overall_health = "Fair"
 
         return {
-            'overall_health': rating['rating'] or 'Not rated',
-            'posture': rating,
+            'overall_health': overall_health,
             'critical_issues': len(critical_findings),
             'high_risk_issues': len(high_findings),
             'total_issues': len(findings),
