@@ -1,0 +1,16 @@
+{
+  "risk_scoring": {
+    "high_risk_threshold": 70,
+    "medium_risk_threshold": 40,
+    "risk_weights": {
+      "zone_risk": 0.3,
+      "port_risk": 0.25,
+      "protocol_risk": 0.2,
+      "application_risk": 0.25
+    }
+  },
+  "application_risk_levels": {},
+  "application_risk_scoring": {
+    "enabled": false
+  }
+}

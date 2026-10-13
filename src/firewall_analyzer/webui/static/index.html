@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firewall Analyzer</title>
+  <meta name="description" content="PwC Firewall Analyzer reads a firewall rule export and returns scored, evidenced security findings across Palo Alto, FortiGate, Cisco ASA, Check Point and Juniper SRX." />
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/landing.css" />
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__blob ambient__blob--a"></span>
+  <span class="ambient__blob ambient__blob--b"></span>
+  <canvas id="grid-canvas"></canvas>
+  <div class="ambient__fade"></div>
+</div>
+
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="shell nav__inner">
+    <a class="brand" href="#top" aria-label="Firewall Analyzer home">
+      <img class="brand__logo" src="/img/pwc-logo-dark.png" alt="PwC" />
+      <span class="brand__rule" aria-hidden="true"></span>
+      <span class="brand__name">Firewall Analyzer</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="#why">Why</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#checks">What it checks</a></li>
+      <li><a href="#vendors">Vendors</a></li>
+      <li><a href="#evidence">Evidence</a></li>
+      <li><a href="#roles">Roles</a></li>
+    </ul>
+    <span class="nav__spacer"></span>
+    <a class="btn btn--primary" href="/app">Sign in</a>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<header class="hero" id="top">
+  <div class="shell hero__grid">
+    <div class="reveal">
+      <div class="eyebrow">PwC &middot; Cyber Security</div>
+      <h1>Your rule base<br />is the audit.<br /><span class="accent">Read it properly.</span></h1>
+      <p class="hero__sub">
+        Export the rules. Get back <strong>scored, evidenced findings</strong> — every
+        permissive rule, cleartext protocol, unlogged allow and shadowed entry,
+        with the arithmetic behind each score shown in full.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="/app">Sign in to the platform</a>
+        <a class="btn btn--ghost btn--lg" href="#how">See how it works</a>
+      </div>
+      <dl class="hero__meta">
+        <div><dt>Checks</dt><dd>12</dd></div>
+        <div><dt>Vendors</dt><dd>6</dd></div>
+        <div><dt>Protocols flagged</dt><dd>18</dd></div>
+        <div><dt>App signatures</dt><dd>5,271</dd></div>
+      </dl>
+    </div>
+
+    <!-- A reduction of the real Overview screen, drawn in DOM. -->
+    <div class="reveal">
+      <div class="preview" role="img" aria-label="The Firewall Analyzer dashboard showing 933 findings, 148 critical, across 216 analyzed rules.">
+        <div class="preview__bar">
+          <span class="preview__dot"></span><span class="preview__dot"></span><span class="preview__dot"></span>
+          <span class="preview__url">firewall-analyzer &mdash; Overview</span>
+        </div>
+        <div class="preview__body">
+          <div class="preview__tiles">
+            <div class="ptile"><div class="ptile__k">Risk health</div><div class="ptile__v" style="color:var(--sev-critical)">Critical</div></div>
+            <div class="ptile"><div class="ptile__k">Findings</div><div class="ptile__v">933</div></div>
+            <div class="ptile"><div class="ptile__k">Critical</div><div class="ptile__v" style="color:var(--sev-critical)">148</div></div>
+            <div class="ptile"><div class="ptile__k">Rules</div><div class="ptile__v" style="color:var(--brand)">216</div></div>
+          </div>
+          <div class="preview__row">
+            <div class="pcard">
+              <div class="pcard__t">By severity</div>
+              <div class="pdonut">
+                <svg width="74" height="74" viewBox="0 0 74 74" aria-hidden="true">
+                  <circle cx="37" cy="37" r="29" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="11"/>
+                  <circle cx="37" cy="37" r="29" fill="none" stroke="#F2555F" stroke-width="11"
+                          stroke-dasharray="28.9 153.3" transform="rotate(-90 37 37)"/>
+                  <circle cx="37" cy="37" r="29" fill="none" stroke="#FF8A3D" stroke-width="11"
+                          stroke-dasharray="36.1 146.1" stroke-dashoffset="-28.9" transform="rotate(-90 37 37)"/>
+                  <circle cx="37" cy="37" r="29" fill="none" stroke="#E8B417" stroke-width="11"
+                          stroke-dasharray="35.9 146.3" stroke-dashoffset="-65" transform="rotate(-90 37 37)"/>
+                  <circle cx="37" cy="37" r="29" fill="none" stroke="#3FBF77" stroke-width="11"
+                          stroke-dasharray="81.2 101" stroke-dashoffset="-101" transform="rotate(-90 37 37)"/>
+                </svg>
+                <div class="plegend">
+                  <span><i style="background:#F2555F"></i>Critical 148</span>
+                  <span><i style="background:#FF8A3D"></i>High 185</span>
+                  <span><i style="background:#E8B417"></i>Medium 184</span>
+                  <span><i style="background:#3FBF77"></i>Low 416</span>
+                </div>
+              </div>
+            </div>
+            <div class="pcard">
+              <div class="pcard__t">Top categories</div>
+              <div class="pbars">
+                <div class="pbar"><span class="pbar__n">Expired</span><span class="pbar__t"><span class="pbar__f" style="width:100%"></span></span><span class="pbar__v">173</span></div>
+                <div class="pbar"><span class="pbar__n">Misconfigured</span><span class="pbar__t"><span class="pbar__f" style="width:77%"></span></span><span class="pbar__v">133</span></div>
+                <div class="pbar"><span class="pbar__n">Shadowed</span><span class="pbar__t"><span class="pbar__f" style="width:76%"></span></span><span class="pbar__v">132</span></div>
+                <div class="pbar"><span class="pbar__n">Insecure proto</span><span class="pbar__t"><span class="pbar__f" style="width:71%"></span></span><span class="pbar__v">123</span></div>
+                <div class="pbar"><span class="pbar__n">Permissive</span><span class="pbar__t"><span class="pbar__f" style="width:70%"></span></span><span class="pbar__v">122</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Why ───────────────────────────────────────────────────── -->
+<section class="band" id="why">
+  <div class="shell band__inner">
+    <div class="section__head reveal">
+      <div class="eyebrow">The problem</div>
+      <h2>Rule bases decay quietly.</h2>
+      <p>
+        Nobody sets out to leave <code>any &rarr; any</code> open on a production edge. It
+        arrives one change ticket at a time, and the only record that it happened is a
+        spreadsheet nobody has read end to end since the migration.
+      </p>
+    </div>
+
+    <div class="problems reveal">
+      <div class="problem">
+        <div class="problem__n">01</div>
+        <h3>Nobody reads 4,000 rules</h3>
+        <p>A manual review samples. Sampling is exactly how the one rule that matters survives three audits in a row.</p>
+      </div>
+      <div class="problem">
+        <div class="problem__n">02</div>
+        <h3>Disabled is not deleted</h3>
+        <p>Rules get switched off, never removed, and quietly re-enabled during an incident. They still need to be in the inventory.</p>
+      </div>
+      <div class="problem">
+        <div class="problem__n">03</div>
+        <h3>Findings without arithmetic</h3>
+        <p>"High risk" convinces nobody. An engineer pushing back deserves the ports, the source, and the sum that produced the number.</p>
+      </div>
+      <div class="problem">
+        <div class="problem__n">04</div>
+        <h3>Every vendor exports differently</h3>
+        <p>FortiGate calls it <code>PolicyID</code>, Palo Alto calls it <code>Name</code>, and one inverts its enabled column. Normalising by hand invites mistakes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How ───────────────────────────────────────────────────── -->
+<section class="band band--alt" id="how">
+  <div class="shell band__inner">
+    <div class="section__head reveal">
+      <div class="eyebrow">How it works</div>
+      <h2>Export, upload, read the findings.</h2>
+      <p>No agent, no connector, no credentials against the firewall. The file you already
+         pull for change management is the entire input.</p>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <h3>Pick the platform</h3>
+        <p>
+          Choose the firewall the export came from first. That decides which columns are read —
+          and lets the upload be checked against the exact fields that vendor requires, before
+          anything runs.
+        </p>
+      </div>
+      <div class="step">
+        <h3>Drop the export</h3>
+        <p>
+          CSV or Excel. Spreadsheets are converted server-side, multi-value cells are split, and
+          every vendor's action vocabulary is flattened so <code>accept</code>, <code>permit</code>
+          and <code>pass</code> all mean allow.
+        </p>
+      </div>
+      <div class="step">
+        <h3>Work the findings</h3>
+        <p>
+          Twelve checks run across the rule base. Filter by severity or category, open any rule to
+          see exactly what matched, and export the result as CSV, JSON or a report.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Checks ────────────────────────────────────────────────── -->
+<section class="band band--dark" id="checks">
+  <div class="shell band__inner">
+    <div class="section__head reveal">
+      <div class="eyebrow">What it checks</div>
+      <h2>Twelve checks, per rule and across the whole base.</h2>
+      <p>Seven run against every rule. Five need the file as a whole — you cannot tell that a
+         rule is shadowed, or that the cleanup rule is in the wrong place, by looking at it alone.</p>
+    </div>
+
+    <div class="checks reveal">
+      <div class="check" style="--sev:var(--sev-critical)">
+        <div class="check__sev">Critical</div>
+        <h3>Cleartext protocols</h3>
+        <p>Telnet, FTP, SMBv1, SNMP, POP3, rlogin and 12 more — matched on service name, port, alternate port and port ranges.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-critical)">
+        <div class="check__sev">Critical</div>
+        <h3>Remote management exposure</h3>
+        <p>SSH, RDP, VNC, WinRM and remote-desktop apps reachable from an untrusted source, matched by App-ID or port.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-critical)">
+        <div class="check__sev">Critical</div>
+        <h3>Allowed threat feeds</h3>
+        <p>Rules that <em>permit</em> traffic to known-malicious lists — Palo Alto EDLs, FortiGuard ISDB objects, external feeds.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-critical)">
+        <div class="check__sev">Critical</div>
+        <h3>Unlogged allow rules</h3>
+        <p>An allow rule with logging off is traffic you cannot audit or investigate after the fact.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-high)">
+        <div class="check__sev">High</div>
+        <h3>Overly permissive</h3>
+        <p><code>any</code> in source, destination, service, application or zone — plus subnets wider than a /16.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-high)">
+        <div class="check__sev">High</div>
+        <h3>Shadowed rules</h3>
+        <p>Rules that can never match because an earlier, broader rule already caught the traffic.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-high)">
+        <div class="check__sev">High</div>
+        <h3>Missing cleanup rule</h3>
+        <p>Whether a deny-any-any exists at all, and whether it is actually the last rule in the base.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-medium)">
+        <div class="check__sev">Medium</div>
+        <h3>Application risk</h3>
+        <p>Applications scored 0&ndash;5 against 5,271 Palo Alto App-ID signatures, with category and technology.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-medium)">
+        <div class="check__sev">Medium</div>
+        <h3>Expired rules</h3>
+        <p>Time-bound rules whose expiry date has already passed but which are still live.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-medium)">
+        <div class="check__sev">Medium</div>
+        <h3>Subnet overlaps</h3>
+        <p>Ranges that contain, are contained by, or partially overlap another rule's — and the hidden access that creates.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-medium)">
+        <div class="check__sev">Medium</div>
+        <h3>Duplicates</h3>
+        <p>Byte-identical rules carrying the same match criteria under a different name.</p>
+      </div>
+      <div class="check" style="--sev:var(--sev-low)">
+        <div class="check__sev">Low</div>
+        <h3>Hygiene</h3>
+        <p>Unused rules, rules untouched for over a year, and missing security-profile coverage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Vendors ───────────────────────────────────────────────── -->
+<section class="band" id="vendors">
+  <div class="shell band__inner">
+    <div class="section__head reveal">
+      <div class="eyebrow">Platforms</div>
+      <h2>Five vendor schemas, plus anything with the right columns.</h2>
+      <p>Column names are matched case- and separator-insensitively, then each vendor's quirks
+         are corrected — including FortiGate's inverted enabled column.</p>
+    </div>
+
+    <div class="vendors reveal">
+      <div class="vendor">
+        <div class="vendor__logo"><img src="/img/palo_alto.png" alt="" /></div>
+        <div class="vendor__name">Palo Alto</div>
+        <div class="vendor__cols">8 required columns</div>
+      </div>
+      <div class="vendor">
+        <div class="vendor__logo"><img src="/img/fortinet.png" alt="" /></div>
+        <div class="vendor__name">FortiGate</div>
+        <div class="vendor__cols">8 required columns</div>
+      </div>
+      <div class="vendor">
+        <div class="vendor__logo"><img src="/img/cisco_asa.png" alt="" /></div>
+        <div class="vendor__name">Cisco ASA</div>
+        <div class="vendor__cols">5 required columns</div>
+      </div>
+      <div class="vendor">
+        <div class="vendor__logo"><img src="/img/checkpoint.png" alt="" /></div>
+        <div class="vendor__name">Check Point</div>
+        <div class="vendor__cols">6 required columns</div>
+      </div>
+      <div class="vendor">
+        <div class="vendor__logo"><img src="/img/juniper_srx.png" alt="" /></div>
+        <div class="vendor__name">Juniper SRX</div>
+        <div class="vendor__cols">7 required columns</div>
+      </div>
+      <div class="vendor">
+        <div class="vendor__logo">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
+            <path d="M4 9h16M4 14h16M12 4v5M8 9v5M16 9v5M12 14v6"/>
+          </svg>
+        </div>
+        <div class="vendor__name">Generic</div>
+        <div class="vendor__cols">5 required columns</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Evidence ──────────────────────────────────────────────── -->
+<section class="band band--dark" id="evidence">
+  <div class="shell band__inner">
+    <div class="split">
+      <div class="reveal">
+        <div class="eyebrow">Evidence, not adjectives</div>
+        <h2 style="font-size:clamp(1.7rem,3.1vw,2.5rem);margin:.7rem 0 .8rem">
+          Every score shows its working.
+        </h2>
+        <p style="color:var(--muted-dark)">
+          A finding that cannot be defended in a room with the network team is not worth
+          raising. Each one carries the rule, what matched, the recommendation, and the sum
+          that produced the number.
+        </p>
+        <div class="feature-list">
+          <div class="feature">
+            <span class="feature__ico" aria-hidden="true">&#9679;</span>
+            <div>
+              <h4>The whole file stays visible</h4>
+              <p>Disabled and excluded rules are kept in the inventory, so "why isn't this flagged?" has an answer on screen.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature__ico" aria-hidden="true">&#9679;</span>
+            <div>
+              <h4>Filter to what you'll actually fix</h4>
+              <p>Severity and category filters live in the URL, so a filtered view is a link you can send.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature__ico" aria-hidden="true">&#9679;</span>
+            <div>
+              <h4>Export in the shape you need</h4>
+              <p>CSV for the tracker, JSON for the pipeline, or a report you compose section by section.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature__ico" aria-hidden="true">&#9679;</span>
+            <div>
+              <h4>Nothing leaves the machine</h4>
+              <p>The analyzer runs locally against a file you already hold. No outbound calls, no tenant, no agent.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="finding-demo">
+          <div class="fd__top">
+            <span class="fd__sev">Critical</span>
+            <span class="fd__type">management_access</span>
+            <span class="fd__score">Score 90</span>
+          </div>
+          <div class="fd__rule">WAN_TO_DMZ_15_RDP</div>
+          <div class="fd__desc">
+            Rule allows remote management (APPLICATION match: ms-rdp) from ANY source.
+          </div>
+          <div class="fd__label">How this score was reached</div>
+          <div class="fd__formula">Score = 50 + 40 = 90</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Roles ─────────────────────────────────────────────────── -->
+<section class="band" id="roles">
+  <div class="shell band__inner">
+    <div class="section__head reveal">
+      <div class="eyebrow">Access</div>
+      <h2>Four roles, so the right people see the right depth.</h2>
+      <p>An executive wants the posture. An analyst wants the rule that caused it. The platform
+         shows each of them their own view of the same analysis.</p>
+    </div>
+
+    <div class="roles reveal">
+      <div class="role">
+        <h3>Administrator</h3>
+        <p>Full access, and the only role that can switch between the three dashboard presets.</p>
+        <div class="role__tags">
+          <span class="role__tag role__tag--on">All views</span>
+          <span class="role__tag role__tag--on">Run</span>
+          <span class="role__tag role__tag--on">History</span>
+        </div>
+      </div>
+      <div class="role">
+        <h3>Executive</h3>
+        <p>Posture and trend only. No configuration, no run history, no machinery.</p>
+        <div class="role__tags">
+          <span class="role__tag role__tag--on">Dashboard</span>
+          <span class="role__tag role__tag--on">Findings</span>
+          <span class="role__tag">Run</span>
+          <span class="role__tag">History</span>
+        </div>
+      </div>
+      <div class="role">
+        <h3>Security Manager</h3>
+        <p>The full working set: run analyses, track history, own the remediation list.</p>
+        <div class="role__tags">
+          <span class="role__tag role__tag--on">Dashboard</span>
+          <span class="role__tag role__tag--on">Run</span>
+          <span class="role__tag role__tag--on">History</span>
+        </div>
+      </div>
+      <div class="role">
+        <h3>Analyst</h3>
+        <p>Rule-level detail, every filter, and the evidence behind each score.</p>
+        <div class="role__tags">
+          <span class="role__tag role__tag--on">Rule Explorer</span>
+          <span class="role__tag role__tag--on">Run</span>
+          <span class="role__tag role__tag--on">History</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────── -->
+<section class="cta">
+  <div class="shell reveal">
+    <h2>Point it at your rule base.</h2>
+    <p>
+      If you can export the rules, you can have the findings in the time it takes to read
+      this page.
+    </p>
+    <div class="cta__actions">
+      <a class="btn btn--primary btn--lg" href="/app">Sign in to the platform</a>
+      <a class="btn btn--ghost btn--lg" href="#checks">Review the checks</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="shell" style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center">
+    <img src="/img/pwc-logo-dark.png" alt="PwC" style="width:44px" />
+    <span>Firewall Analyzer &middot; Cyber Security</span>
+    <span class="foot__spacer"></span>
+    <span>Runs locally &middot; no data leaves your machine</span>
+  </div>
+</footer>
+
+<script src="/js/landing.js" type="module"></script>
+</body>
+</html>

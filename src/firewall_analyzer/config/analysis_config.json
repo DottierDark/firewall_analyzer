@@ -1,0 +1,123 @@
+{
+    "version": "1.0",
+    "description": "Firewall Rule Analysis Configuration",
+    "risk_scoring": {
+        "high_risk_threshold": 70,
+        "medium_risk_threshold": 40,
+        "risk_weights": {
+            "zone_risk": 0.3,
+            "port_risk": 0.25,
+            "protocol_risk": 0.2,
+            "application_risk": 0.25
+        }
+    },
+    "application_risk_levels": {
+        "high": ["rdp", "ssh", "telnet", "vnc", "sql-server", "h.323", "100bao"],
+        "medium": ["http", "smtp", "dns", "ldap"],
+        "low": ["https", "ldaps", "smtps"]
+    },
+    "application_risk_scoring": {
+        "enabled": true,
+        "applipedia_enabled": true,
+        "min_risk_rating_for_finding": 2,
+        "max_score_per_application": 35,
+        "max_score_per_rule": 90,
+        "default_risk_levels": {
+            "high": 5,
+            "medium": 3,
+            "low": 1
+        }
+    },
+    "insecure_protocols": {
+        "tcp/21": "FTP - Unencrypted file transfer",
+        "tcp/23": "Telnet - Unencrypted remote access",
+        "tcp/80": "HTTP - Unencrypted web traffic",
+        "udp/161": "SNMP - Potentially sensitive information exposure",
+        "tcp/25": "SMTP - Unencrypted email",
+        "tcp/110": "POP3 - Unencrypted email",
+        "tcp/143": "IMAP - Unencrypted email",
+        "tcp/1720": "H.323 - VoIP signaling protocol",
+        "tcp/1503": "T.120 - Used by H.323",
+        "tcp/1719": "H.323 Gatekeeper discovery",
+        "udp/1718-1719": "H.323 Gatekeeper discovery",
+        "tcp/1300-1350": "H.245 control channel",
+        "tcp/11000-11999": "H.323 dynamic ports",
+        "udp/11000-11999": "H.323 dynamic ports"
+    },
+    "port_security": {
+        "high_risk_ports": ["22", "23", "80", "3389", "1433", "1521", "3306", "5432", "1720", "1503", "1719", "1300-1350", "11000-11999"],
+        "sensitive_services": ["ssh", "rdp", "sql-server", "oracle-db", "mysql", "postgresql", "h.323", "100bao"],
+        "application_ports": {
+            "h.323": {
+                "description": "H.323 VoIP Protocol",
+                "ports": [
+                    "tcp/1720", "tcp/1503", "tcp/389", "tcp/522", "tcp/1719",
+                    "udp/1718-1719", "udp/1300", "udp/1300-1350", "tcp/1300-1350",
+                    "tcp/11000-11999", "udp/11000-11999"
+                ],
+                "risk": "high",
+                "recommendations": [
+                    "Restrict to specific IPs",
+                    "Consider using SIP with encryption instead",
+                    "Monitor for unusual traffic patterns"
+                ]
+            },
+            "100bao": {
+                "description": "100Bao Remote Access",
+                "ports": [
+                    "tcp/80", "tcp/443", "tcp/8000", "tcp/8080",
+                    "udp/53", "udp/123", "udp/1900"
+                ],
+                "risk": "high",
+                "recommendations": [
+                    "Restrict to specific IPs",
+                    "Enable MFA if available",
+                    "Monitor access logs regularly"
+                ]
+            }
+        }
+    },
+    "zone_analysis": {
+        "critical_zones": ["dmz", "ot", "pci", "financial", "voip", "remote_access"],
+        "external_zones": ["internet", "external", "untrusted", "wan"],
+        "zone_restrictions": {
+            "h.323": {
+                "allowed_zones": ["voip", "internal", "trusted"],
+                "blocked_zones": ["internet", "dmz", "untrusted"]
+            },
+            "100bao": {
+                "allowed_zones": ["management", "admin", "remote_access"],
+                "blocked_zones": ["internet", "dmz"]
+            }
+        }
+    },
+    "compliance": {
+        "check_redundant_rules": true,
+        "check_disabled_rules": true,
+        "check_any_any_rules": true,
+        "check_high_risk_apps": true,
+        "specific_checks": {
+            "h.323": {
+                "check_open_ports": true,
+                "check_zone_violations": true,
+                "check_encryption": true
+            },
+            "100bao": {
+                "check_authentication": true,
+                "check_access_restrictions": true,
+                "check_logging": true
+            }
+        }
+    },
+    "posture_rating": {
+        "_comment": "Overall rating on the finding scale (Critical/High/Medium/Low). Each assessed rule counts once by its most severe open issue, weighted relative to critical; score = 100 * (1 - weighted share). The score picks a band, then a floor applies: any critical issue rates at least High, any high issue at least Medium. See core/posture.py.",
+        "weights": {"critical": 1.0, "high": 0.5, "medium": 0.2, "low": 0.05, "info": 0.0},
+        "bands": [
+            {"rating": "Low", "min_score": 85},
+            {"rating": "Medium", "min_score": 70},
+            {"rating": "High", "min_score": 50},
+            {"rating": "Critical", "min_score": 0}
+        ],
+        "floors": {"critical": "High", "high": "Medium"}
+    }
+}

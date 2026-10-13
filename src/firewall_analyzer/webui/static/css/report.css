@@ -1,0 +1,236 @@
+/* Firewall Analyzer — assessment report.
+   Used twice: scoped under .report-doc for the live preview in the app, and
+   inlined verbatim into the standalone HTML download. One stylesheet means the
+   preview cannot drift from the file the client receives.
+
+   System fonts only, deliberately: the downloaded report has to render the same
+   on a machine with no network and no access to a font CDN.
+
+   Light only. A report is read on paper or on white; a dark-mode deliverable
+   would print as a black rectangle. */
+
+.report-doc {
+  --r-ink:      #14110F;
+  --r-ink-2:    #3A332E;
+  --r-muted:    #6B635D;
+  --r-faint:    #776F69;   /* was #9A928C (3.1:1); captions need 4.5:1 */
+  --r-rule:     #DDD6CF;
+  --r-rule-soft:#EDE8E3;
+  --r-paper:    #FFFFFF;
+  --r-sunken:   #F7F4F1;
+  --r-brand:    #D04A02;
+  --r-brand-br: #FE5108;
+  --r-cover:    #16120F;
+
+  --r-critical: #B3122F;
+  --r-high:     #B5440F;   /* was #D2521A (4.2:1 as text on paper) */
+  --r-medium:   #8A6100;
+  --r-low:      #137A47;
+  --r-info:     #1268A3;
+
+  --r-sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", system-ui, sans-serif;
+  --r-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  background: var(--r-paper);
+  color: var(--r-ink);
+  font-family: var(--r-sans);
+  font-size: 10.5pt;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.report-doc *,
+.report-doc *::before,
+.report-doc *::after { box-sizing: border-box; }
+
+.report-doc h1,
+.report-doc h2,
+.report-doc h3,
+.report-doc h4 { margin: 0; font-weight: 700; letter-spacing: -0.012em; }
+.report-doc p { margin: 0 0 0.75em; max-width: 78ch; }
+.report-doc strong { font-weight: 650; }
+
+/* ── Cover ────────────────────────────────────────────────────── */
+.r-cover {
+  background: var(--r-cover);
+  color: #F6F2EE;
+  padding: 3.2rem 3rem 2.6rem;
+  position: relative;
+}
+.r-cover::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+  background: linear-gradient(90deg, var(--r-brand-br) 0%, var(--r-brand) 42%, transparent 42%);
+}
+.r-cover__mark {
+  display: flex; align-items: center; gap: 0.7rem; margin-bottom: 2.6rem;
+}
+.r-cover__logo { width: 78px; height: auto; display: block; }
+.r-cover__kicker {
+  font-family: var(--r-mono); font-size: 0.66rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--r-brand-br); margin-bottom: 0.8rem;
+}
+.r-cover h1 {
+  font-size: 2.15rem; line-height: 1.08; margin-bottom: 0.5rem; max-width: 20ch;
+}
+.r-cover__sub { color: #B9B0A9; font-size: 0.95rem; margin: 0; }
+.r-cover__meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem 1.6rem; margin-top: 2.4rem; padding-top: 1.4rem;
+  border-top: 1px solid rgba(255,255,255,0.16);
+}
+.r-cover__meta dt {
+  font-family: var(--r-mono); font-size: 0.6rem; letter-spacing: 0.13em;
+  text-transform: uppercase; color: #8E837C; margin-bottom: 0.25rem;
+}
+.r-cover__meta dd {
+  margin: 0; font-size: 0.92rem; font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* ── Body ─────────────────────────────────────────────────────── */
+.r-body { padding: 2.4rem 3rem 3rem; }
+
+.r-section { margin-bottom: 2.6rem; }
+.r-section:last-child { margin-bottom: 0; }
+
+.r-section__head {
+  display: flex; align-items: baseline; gap: 0.8rem;
+  padding-bottom: 0.55rem; margin-bottom: 1.1rem;
+  border-bottom: 2px solid var(--r-ink);
+}
+.r-section__num {
+  font-family: var(--r-mono); font-size: 0.72rem; font-weight: 500;
+  color: var(--r-brand); letter-spacing: 0.06em;
+}
+.r-section__head h2 { font-size: 1.16rem; }
+.r-section__note { margin-left: auto; font-size: 0.72rem; color: var(--r-faint); }
+.r-lede { color: var(--r-muted); font-size: 0.95rem; margin-bottom: 1.1rem; }
+
+/* Figures: verdict tiles */
+.r-tiles {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 1px; background: var(--r-rule);
+  border: 1px solid var(--r-rule); margin-bottom: 1.4rem;
+}
+.r-tile { background: var(--r-paper); padding: 0.85rem 0.95rem; }
+.r-tile__k {
+  font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--r-muted); margin-bottom: 0.3rem;
+}
+.r-tile__v {
+  font-size: 1.7rem; font-weight: 700; line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.r-tile__n { font-size: 0.7rem; color: var(--r-faint); margin-top: 0.15rem; }
+
+/* Severity bar — the whole distribution in one line */
+.r-dist { display: flex; height: 26px; border-radius: 3px; overflow: hidden; margin-bottom: 0.6rem; }
+.r-dist span { display: block; }
+.r-dist__key { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: 0.76rem; }
+.r-dist__key i {
+  width: 9px; height: 9px; border-radius: 2px; display: inline-block;
+  margin-right: 0.35rem; vertical-align: middle;
+}
+
+/* Ranked bars */
+.r-bars { display: grid; gap: 0.4rem; }
+.r-bar { display: grid; grid-template-columns: minmax(9rem, 30%) 1fr auto; align-items: center; gap: 0.7rem; font-size: 0.82rem; }
+.r-bar__t { height: 11px; background: var(--r-sunken); border-radius: 2px; overflow: hidden; }
+/* display:block — the track is a grid item so it blockifies, but this fill is
+   a span inside a non-flex parent and would otherwise stay inline, silently
+   ignoring width and height. */
+.r-bar__f { display: block; height: 100%; background: var(--r-brand); border-radius: 2px; }
+.r-bar__v { font-variant-numeric: tabular-nums; color: var(--r-muted); min-width: 3ch; text-align: right; }
+
+/* Tables */
+.r-table-wrap { overflow-x: auto; }
+.report-doc table {
+  width: 100%; border-collapse: collapse; font-size: 0.82rem;
+}
+.report-doc th {
+  text-align: left; font-size: 0.63rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--r-muted);
+  padding: 0 0.7rem 0.45rem 0; border-bottom: 1.5px solid var(--r-ink);
+  white-space: nowrap;
+}
+.report-doc td {
+  padding: 0.44rem 0.7rem 0.44rem 0;
+  border-bottom: 1px solid var(--r-rule-soft); vertical-align: top;
+}
+.report-doc tbody tr:last-child td { border-bottom: 1px solid var(--r-rule); }
+.r-num { text-align: right; font-variant-numeric: tabular-nums; }
+.r-mono { font-family: var(--r-mono); font-size: 0.78rem; }
+.r-rule-name { font-weight: 600; }
+.r-wrap { overflow-wrap: anywhere; }
+
+/* Severity chip — colour never carries the meaning alone */
+.r-sev {
+  display: inline-block; font-size: 0.66rem; font-weight: 700;
+  text-transform: capitalize; white-space: nowrap;
+  padding: 0.08rem 0.42rem; border-radius: 2px;
+  border: 1px solid currentColor;
+}
+.r-sev--critical { color: var(--r-critical); }
+.r-sev--high     { color: var(--r-high); }
+.r-sev--medium   { color: var(--r-medium); }
+.r-sev--low      { color: var(--r-low); }
+.r-sev--info     { color: var(--r-info); }
+
+.r-pill {
+  display: inline-block; font-size: 0.66rem; font-weight: 600;
+  padding: 0.06rem 0.38rem; border-radius: 2px;
+  border: 1px solid var(--r-rule); color: var(--r-muted);
+}
+.r-pill--allow { color: var(--r-low); border-color: currentColor; }
+.r-pill--deny  { color: var(--r-critical); border-color: currentColor; }
+
+/* Callout — used for the methodology and the caveats */
+.r-callout {
+  border-left: 3px solid var(--r-brand);
+  background: var(--r-sunken);
+  padding: 0.85rem 1.1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+.r-callout h4 { font-size: 0.88rem; margin-bottom: 0.3rem; }
+.r-callout p:last-child { margin-bottom: 0; }
+
+.r-kv { display: grid; grid-template-columns: minmax(8rem, auto) 1fr; gap: 0.35rem 1.1rem; font-size: 0.84rem; }
+.r-kv dt { color: var(--r-muted); }
+.r-kv dd { margin: 0; overflow-wrap: anywhere; }
+
+.r-matrix td.r-heat { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.r-foot {
+  margin-top: 2.6rem; padding-top: 1rem; border-top: 1px solid var(--r-rule);
+  font-size: 0.72rem; color: var(--r-faint);
+  display: flex; gap: 1rem; flex-wrap: wrap;
+}
+.r-foot span:last-child { margin-left: auto; }
+
+.r-empty { color: var(--r-faint); font-size: 0.85rem; font-style: italic; }
+
+/* ── Print ────────────────────────────────────────────────────── */
+@media print {
+  @page { margin: 14mm; }
+  .report-doc { font-size: 9.5pt; }
+  .r-cover { padding: 2.4rem 2rem; break-after: page; }
+  .r-body { padding: 0; }
+  .r-section { break-inside: avoid-page; }
+  .r-section__head { break-after: avoid-page; }
+  .report-doc tr { break-inside: avoid; }
+  .report-doc thead { display: table-header-group; }
+}
+
+/* Narrow screens: the preview pane can get tight inside the app shell. */
+@media (max-width: 720px) {
+  .r-cover { padding: 2rem 1.4rem 1.8rem; }
+  .r-body { padding: 1.6rem 1.4rem 2rem; }
+  .r-cover h1 { font-size: 1.7rem; }
+  .r-bar { grid-template-columns: minmax(6rem, 40%) 1fr auto; }
+}
+
+/* One block per compliance framework when a run assessed several. */
+.r-fw + .r-fw { margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid rgba(0, 0, 0, 0.12); }
+.r-fw h3 { font-size: 1.05rem; margin: 0 0 0.6rem; }
